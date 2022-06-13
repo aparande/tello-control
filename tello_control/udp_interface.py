@@ -1,0 +1,84 @@
+from typing import Any
+
+import threading
+import socket
+import sys
+import time
+import queue
+
+import abc
+
+from tello_control import structs
+
+class UdpInterface(abc.ABC):
+  def __init__(self, name: str, ip: str, port: int):
+    self._name = name
+    self._ip = ip
+    self._port = port
+    self._is_streaming = False
+
+    self.messages = queue.Queue()
+
+  def connect(self) -> None:
+    print(f"[INFO] Opening {self._name} UDP Connection")
+
+    self._socket = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+    self._socket.settimeout(10)
+    self._socket.bind(('', self._port))
+    self._is_streaming = True
+
+    self._thread = threading.Thread(target=self._receive)
+    self._stop_event = threading.Event()
+    self._thread.start()
+
+  def disconnect(self) -> None:
+    if not self._is_streaming:
+      raise RuntimeError("Cannot end UDP stream because stream was never\
+      started")
+
+    print(f"[INFO] Closing {self._name} UDP Connection")
+
+    self._stop_event.set()
+    self._thread.join()
+
+    self._socket.close()
+    self._is_streaming = False
+
+
+  def _receive(self) -> None:
+    while not self._stop_event.is_set():
+      try:
+        data, server = self._socket.recvfrom(1518)
+      except socket.timeout:
+        print(f"[WARNING] {self._name} Connection timed out")
+        continue
+
+      data = data.decode('utf8').strip()
+      self.messages.put(self._format_packet(data))
+
+    print(f"[INFO] Closing {self._name} Receive Thread")
+
+  @abc.abstractmethod
+  def _format_packet(self, data:str) -> Any:
+    pass
+
+class TelemetryInterface(UdpInterface):
+  def __init__(self):
+    super().__init__("Telemetry", '192.168.10.1', 8890)
+
+  def _format_packet(self, data: str) -> structs.TelemetryPacket:
+    return structs.TelemetryPacket.from_data_str(data)
+
+class CommandInterface(UdpInterface):
+  def __init__(self):
+    super().__init__("Command", '192.168.10.1', 8889)
+
+  def _format_packet(self, data: str) -> str:
+    return data
+
+  def send(self, packet: structs.CommandPacket):
+    # TODO: Error of socket is not open
+    print(f"[CMD] Sending {packet}")
+    msg = str(packet).encode(encoding="utf-8")
+    _ = self._socket.sendto(msg, (self._ip, self._port))
+  
