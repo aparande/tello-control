@@ -55,6 +55,8 @@ class TelemetryPacket:
 
 class TelloCommand(enum.Enum):
   SDK_ON = "command"
+  START_VIDEO = "streamon"
+  STOP_VIDEO = "streamoff"
 
 @dataclasses.dataclass
 class CommandPacket:
