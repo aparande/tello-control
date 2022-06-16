@@ -1,5 +1,6 @@
 from typing import Any
 
+import logging
 import threading
 import socket
 import sys
@@ -25,7 +26,7 @@ class UdpInterface(abc.ABC):
     self.messages = queue.Queue()
 
   def connect(self) -> None:
-    print(f"[INFO] Opening {self._name} UDP Connection")
+    logging.info(f"Opening {self._name} UDP Connection")
 
     self._create_connection()
     self._is_streaming = True
@@ -39,7 +40,7 @@ class UdpInterface(abc.ABC):
       raise RuntimeError("Cannot end UDP stream because stream was never\
       started")
 
-    print(f"[INFO] Closing {self._name} UDP Connection")
+    logging.info(f"Closing {self._name} UDP Connection")
 
     self._stop_event.set()
     self._thread.join()
@@ -53,7 +54,7 @@ class UdpInterface(abc.ABC):
       if msg is not None:
         self.messages.put(msg)
 
-    print(f"[INFO] Closing {self._name} Receive Thread")
+    logging.info(f"Closing {self._name} Receive Thread")
 
   @abc.abstractmethod
   def _get_data(self) -> Any:
@@ -82,7 +83,7 @@ class UdpSocketInterface(UdpInterface):
     try:
       data, server = self._socket.recvfrom(1518)
     except socket.timeout:
-      print(f"[WARNING] {self._name} Connection timed out")
+      logging.warning(f"{self._name} Connection timed out")
       return
 
     data = data.decode('utf8').strip()
@@ -112,7 +113,7 @@ class CommandInterface(UdpSocketInterface):
 
   def send(self, packet: structs.CommandPacket):
     # TODO: Error of socket is not open
-    print(f"[CMD] Sending {packet}")
+    logging.info(f"Sending {packet}")
     msg = str(packet).encode(encoding="utf-8")
     _ = self._socket.sendto(msg, (self._ip, self._port))
 
