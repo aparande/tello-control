@@ -1,12 +1,21 @@
+import pathlib
+import sys
 import time
 import threading
+import logging
 
 import cv2
 import numpy as np
 
+tld = pathlib.Path(__file__).resolve().parent.parent.parent
+sys.path.append(str(tld))
+
 import tello_control
 
 if __name__ == '__main__':
+  logger = logging.getLogger()
+  logger.setLevel(logging.DEBUG)
+
   tello = tello_control.Tello()
   tello.connect()
   time.sleep(0.1)
