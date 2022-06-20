@@ -108,6 +108,11 @@ class CommandInterface(UdpSocketInterface):
   def __init__(self):
     super().__init__("Command", '192.168.10.1', 8889)
 
+  def _get_data(self) -> Any:
+    data = super()._get_data()
+    logging.info(f"Received packet '{data}'")
+    return data
+
   def _format_packet(self, data: str) -> str:
     return data
 

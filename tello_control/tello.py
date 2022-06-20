@@ -1,4 +1,4 @@
-from typing import Optional
+from typing import Optional, Any
 
 import logging
 import threading
@@ -19,6 +19,10 @@ class Tello:
     self.telem = TelemetryInterface()
     self.cmd = CommandInterface()
     self.video = VideoInterface()
+
+  def send_command(self, command: TelloCommand, *args: Any):
+    str_args = [str(arg) for arg in args]
+    self.cmd.send(CommandPacket(command, payload=str_args))
 
   def connect(self):
     self.telem.connect()

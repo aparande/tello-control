@@ -2,11 +2,13 @@ from __future__ import annotations
 
 from typing import Any, Optional
 import enum
+import time
 
 import dataclasses
 
 @dataclasses.dataclass
 class TelemetryPacket:
+  timestamp: int
   pitch: int
   roll: int
   yaw: int
@@ -35,6 +37,7 @@ class TelemetryPacket:
       data_dict[key] = val
 
     return TelemetryPacket(
+        timestamp=time.time(),
         pitch=data_dict['pitch'],
         roll=data_dict['roll'],
         yaw=data_dict['yaw'],
@@ -57,14 +60,18 @@ class TelloCommand(enum.Enum):
   SDK_ON = "command"
   START_VIDEO = "streamon"
   STOP_VIDEO = "streamoff"
+  TAKE_OFF = "takeoff"
+  LAND = "land"
+  HOVER = "stop"
+  RC = "rc"
 
 @dataclasses.dataclass
 class CommandPacket:
   command: TelloCommand
-  payload: Optional[list[Any]] = None
+  payload: Optional[list[str]] = None
 
   def __str__(self) -> str:
-    if self.payload is None:
+    if self.payload is None or len(self.payload) == 0:
       return self.command.value
-    return f"{self.command.value} " + " ".join(payload)
+    return f"{self.command.value} " + " ".join(self.payload)
 
