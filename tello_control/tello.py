@@ -15,27 +15,46 @@ from tello_control.udp_interface import (TelemetryInterface, CommandInterface,
 
 class Tello:
 
-  def __init__(self):
+  def __init__(self, ack_timeout: int=15):
     self.telem = TelemetryInterface()
     self.cmd = CommandInterface()
     self.video = VideoInterface()
 
-  def send_command(self, command: TelloCommand, *args: Any):
+    self._ack_timeout = ack_timeout
+
+  def send_command(self, command: TelloCommand, *args: Any,
+      wait_for_success=False) -> bool:
     str_args = [str(arg) for arg in args]
     self.cmd.send(CommandPacket(command, payload=str_args))
+
+    if not wait_for_success:
+      return True
+
+    # Block until the drone acknowledges
+    start = time.time()
+    while True:
+      try:
+        timestamp, msg = self.cmd.messages.get(timeout=self._ack_timeout)
+        if timestamp > start:
+          return "ok" in msg.lower()
+        else:
+          continue
+      except queue.Empty:
+        logging.error(f"Drone did not acknowledge command: {command}")
+        return False
 
   def connect(self):
     self.telem.connect()
     self.cmd.connect()
-    self.cmd.send(CommandPacket(TelloCommand.SDK_ON))
+    self.send_command(TelloCommand.SDK_ON, wait_for_success=True)
 
   def stream_video(self):
-    self.cmd.send(CommandPacket(TelloCommand.START_VIDEO))
+    self.send_command(TelloCommand.START_VIDEO, wait_for_success=True)
     self.video.connect()
 
   def end_video_stream(self):
     self.video.disconnect()
-    self.cmd.send(CommandPacket(TelloCommand.STOP_VIDEO))
+    self.send_command(TelloCommand.STOP_VIDEO, wait_for_success=True)
 
   def disconnect(self):
     self.telem.disconnect()

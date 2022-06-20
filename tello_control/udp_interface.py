@@ -1,4 +1,6 @@
-from typing import Any
+from __future__ import annotations
+
+from typing import Any, Optional
 
 import logging
 import threading
@@ -6,6 +8,7 @@ import socket
 import sys
 import time
 import queue
+import errno
 
 import abc
 
@@ -57,7 +60,7 @@ class UdpInterface(abc.ABC):
     logging.info(f"Closing {self._name} Receive Thread")
 
   @abc.abstractmethod
-  def _get_data(self) -> Any:
+  def _get_data(self) -> Optional[Any]:
     pass
 
   @abc.abstractmethod
@@ -73,17 +76,18 @@ class UdpSocketInterface(UdpInterface):
 
   def _create_connection(self) -> None:
     self._socket = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
-    self._socket.settimeout(10)
+    self._socket.setblocking(False)
     self._socket.bind(('', self._port))
 
   def _destroy_connection(self) -> None:
     self._socket.close()
 
-  def _get_data(self) -> Any:
+  def _get_data(self) -> Optional[Any]:
     try:
       data, server = self._socket.recvfrom(1518)
-    except socket.timeout:
-      logging.warning(f"{self._name} Connection timed out")
+    except socket.error as e:
+      if e.args[0] != errno.EAGAIN:
+        logging.error(f"{self._name} encountered socket error {e}")
       return
 
     data = data.decode('utf8').strip()
@@ -108,13 +112,14 @@ class CommandInterface(UdpSocketInterface):
   def __init__(self):
     super().__init__("Command", '192.168.10.1', 8889)
 
-  def _get_data(self) -> Any:
+  def _get_data(self) -> Optional[Any]:
     data = super()._get_data()
-    logging.info(f"Received packet '{data}'")
+    if data is not None:
+      logging.info(f"Received packet '{data[1]}'")
     return data
 
-  def _format_packet(self, data: str) -> str:
-    return data
+  def _format_packet(self, data: str) -> tuple[int, str]:
+    return time.time(), data
 
   def send(self, packet: structs.CommandPacket):
     # TODO: Error of socket is not open
@@ -133,7 +138,7 @@ class VideoInterface(UdpInterface):
   def _destroy_connection(self) -> None:
     self._video_capture.release()
 
-  def _get_data(self) -> Any:
+  def _get_data(self) -> Optional[Any]:
     retval, frame = self._video_capture.read()
     if not retval:
       raise RuntimeError("Video Stream disconnected")

@@ -18,8 +18,8 @@ class Experiment(abc.ABC):
     self.tello = Tello()
     self._output_path = pathlib.Path(output_path)
 
-  def setUp(self):
-    self.tello.connect()
+  def setUp(self) -> bool:
+    return self.tello.connect()
 
   def tearDown(self):
     self.tello.disconnect()
@@ -37,10 +37,8 @@ class Experiment(abc.ABC):
         writer.writerow(dataclasses.asdict(message))
 
   def run(self):
-    self.setUp()
-
-    logging.info("Connecting to Tello...")
-    time.sleep(1)
+    if not self.setUp():
+      logging.error("Did not run experiment because could not connect to drone")
 
     self.main()
 
