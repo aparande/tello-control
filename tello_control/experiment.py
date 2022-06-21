@@ -36,6 +36,17 @@ class Experiment(abc.ABC):
         message = self.tello.telem.messages.get()
         writer.writerow(dataclasses.asdict(message))
 
+  def log_command_history(self):
+    if not os.path.exists(self._output_path):
+      os.mkdir(self._output_path)
+
+    with open(self._output_path / "command-history.csv", 'w') as csv_file:
+      writer = csv.writer(csv_file)
+      writer.writerow(["Timestamp", "Command", "Arg0", "Arg1", "Arg2", "Arg3"])
+      for timestamp, cmd in self.tello.command_history:
+        writer.writerow([timestamp, cmd.command, *cmd.payload])
+
+
   def run(self):
     if not self.setUp():
       logging.error("Did not run experiment because could not connect to drone")
@@ -45,6 +56,7 @@ class Experiment(abc.ABC):
     self.tearDown()
 
     self.log_results()
+    self.log_command_history()
 
   @abc.abstractmethod
   def main(self):

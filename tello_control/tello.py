@@ -19,13 +19,16 @@ class Tello:
     self.telem = TelemetryInterface()
     self.cmd = CommandInterface()
     self.video = VideoInterface()
+    self.command_history = []
 
     self._ack_timeout = ack_timeout
 
   def send_command(self, command: TelloCommand, *args: Any,
       wait_for_success=False) -> bool:
     str_args = [str(arg) for arg in args]
-    self.cmd.send(CommandPacket(command, payload=str_args))
+    packet = CommandPacket(command, payload=str_args)
+    self.cmd.send(packet)
+    self.command_history.append((time.time(), packet))
 
     if not wait_for_success:
       return True
@@ -43,10 +46,10 @@ class Tello:
         logging.error(f"Drone did not acknowledge command: {command}")
         return False
 
-  def connect(self):
+  def connect(self) -> bool:
     self.telem.connect()
     self.cmd.connect()
-    self.send_command(TelloCommand.SDK_ON, wait_for_success=True)
+    return self.send_command(TelloCommand.SDK_ON, wait_for_success=True)
 
   def stream_video(self):
     self.send_command(TelloCommand.START_VIDEO, wait_for_success=True)
