@@ -1,4 +1,5 @@
-from typing import Optional, Any
+from __future__ import annotations
+from typing import Optional, Any, Union
 
 import logging
 import threading
@@ -24,7 +25,7 @@ class Tello:
     self._ack_timeout = ack_timeout
 
   def send_command(self, command: TelloCommand, *args: Any,
-      wait_for_success=False) -> bool:
+      wait_for_success=False) -> Union[bool, tuple[bool, Optional[str]]]:
     str_args = [str(arg) for arg in args]
     packet = CommandPacket(command, payload=str_args)
     self.cmd.send(packet)
@@ -39,17 +40,24 @@ class Tello:
       try:
         timestamp, msg = self.cmd.messages.get(timeout=self._ack_timeout)
         if timestamp > start:
-          return "ok" in msg.lower()
+          return "error" not in msg.lower(), msg
         else:
           continue
       except queue.Empty:
         logging.error(f"Drone did not acknowledge command: {command}")
-        return False
+        return False, None
+
+  @property
+  def battery(self) -> int:
+    ret, msg = self.send_command(TelloCommand.CHECK_BATTERY,
+        wait_for_success=True)
+    return msg
 
   def connect(self) -> bool:
     self.telem.connect()
     self.cmd.connect()
-    return self.send_command(TelloCommand.SDK_ON, wait_for_success=True)
+    ret, _ = self.send_command(TelloCommand.SDK_ON, wait_for_success=True)
+    return ret
 
   def stream_video(self):
     self.send_command(TelloCommand.START_VIDEO, wait_for_success=True)

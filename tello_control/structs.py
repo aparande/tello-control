@@ -64,6 +64,7 @@ class TelloCommand(enum.Enum):
   LAND = "land"
   HOVER = "stop"
   RC = "rc"
+  CHECK_BATTERY = "battery?"
 
 @dataclasses.dataclass
 class CommandPacket:
