@@ -17,6 +17,7 @@ import numpy as np
 
 from tello_control import structs
 
+LOGGER = logging.getLogger("tello")
 
 class UdpInterface(abc.ABC):
 
@@ -29,7 +30,7 @@ class UdpInterface(abc.ABC):
     self.messages = queue.Queue()
 
   def connect(self) -> None:
-    logging.info(f"Opening {self._name} UDP Connection")
+    LOGGER.info(f"Opening {self._name} UDP Connection")
 
     self._create_connection()
     self._is_streaming = True
@@ -43,7 +44,7 @@ class UdpInterface(abc.ABC):
       raise RuntimeError("Cannot end UDP stream because stream was never\
       started")
 
-    logging.info(f"Closing {self._name} UDP Connection")
+    LOGGER.info(f"Closing {self._name} UDP Connection")
 
     self._stop_event.set()
     self._thread.join()
@@ -57,7 +58,7 @@ class UdpInterface(abc.ABC):
       if msg is not None:
         self.messages.put(msg)
 
-    logging.info(f"Closing {self._name} Receive Thread")
+    LOGGER.info(f"Closing {self._name} Receive Thread")
 
   @abc.abstractmethod
   def _get_data(self) -> Optional[Any]:
@@ -87,7 +88,7 @@ class UdpSocketInterface(UdpInterface):
       data, server = self._socket.recvfrom(1518)
     except socket.error as e:
       if e.args[0] != errno.EAGAIN:
-        logging.error(f"{self._name} encountered socket error {e}")
+        LOGGER.error(f"{self._name} encountered socket error {e}")
       return
 
     data = data.decode('utf8').strip()
@@ -115,7 +116,7 @@ class CommandInterface(UdpSocketInterface):
   def _get_data(self) -> Optional[Any]:
     data = super()._get_data()
     if data is not None:
-      logging.info(f"Received packet '{data[1]}'")
+      LOGGER.info(f"Received packet '{data[1]}'")
     return data
 
   def _format_packet(self, data: str) -> tuple[int, str]:
@@ -123,7 +124,7 @@ class CommandInterface(UdpSocketInterface):
 
   def send(self, packet: structs.CommandPacket):
     # TODO: Error of socket is not open
-    logging.info(f"Sending {packet}")
+    LOGGER.info(f"Sending {packet}")
     msg = str(packet).encode(encoding="utf-8")
     _ = self._socket.sendto(msg, (self._ip, self._port))
 

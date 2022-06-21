@@ -13,6 +13,7 @@ from tello_control.structs import CommandPacket, TelloCommand
 from tello_control.udp_interface import (TelemetryInterface, CommandInterface,
                                          VideoInterface)
 
+LOGGER = logging.getLogger("tello")
 
 class Tello:
 
@@ -44,7 +45,7 @@ class Tello:
         else:
           continue
       except queue.Empty:
-        logging.error(f"Drone did not acknowledge command: {command}")
+        LOGGER.error(f"Drone did not acknowledge command: {command}")
         return False, None
 
   @property

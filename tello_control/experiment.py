@@ -13,6 +13,8 @@ from tello_control.structs import TelloCommand, TelemetryPacket
 
 TELEM_FIELDS = [field.name for field in dataclasses.fields(TelemetryPacket)]
 
+LOGGER = logging.getLogger("experiment")
+
 class Experiment(abc.ABC):
   def __init__(self, output_path: str):
     self.tello = Tello()
@@ -49,7 +51,7 @@ class Experiment(abc.ABC):
 
   def run(self):
     if not self.setUp():
-      logging.error("Did not run experiment because could not connect to drone")
+      LOGGER.error("Did not run experiment because could not connect to drone")
 
     self.main()
 
