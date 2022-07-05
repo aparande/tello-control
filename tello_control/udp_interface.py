@@ -103,6 +103,13 @@ class TelemetryInterface(UdpSocketInterface):
 
   def __init__(self):
     super().__init__("Telemetry", '192.168.10.1', 8890)
+    self.history = []
+
+  def _get_data(self) -> Optional[structs.TelemetryPacket]:
+    data = super()._get_data()
+    if data is not None:
+      self.history.append(data)
+    return data
 
   def _format_packet(self, data: str) -> structs.TelemetryPacket:
     return structs.TelemetryPacket.from_data_str(data)
@@ -116,15 +123,15 @@ class CommandInterface(UdpSocketInterface):
   def _get_data(self) -> Optional[Any]:
     data = super()._get_data()
     if data is not None:
-      LOGGER.info(f"Received packet '{data[1]}'")
+      LOGGER.debug(f"Received packet '{data[1]}'")
     return data
 
-  def _format_packet(self, data: str) -> tuple[int, str]:
+  def _format_packet(self, data: str) -> tuple[float, str]:
     return time.time(), data
 
   def send(self, packet: structs.CommandPacket):
     # TODO: Error of socket is not open
-    LOGGER.info(f"Sending {packet}")
+    LOGGER.debug(f"Sending {packet}")
     msg = str(packet).encode(encoding="utf-8")
     _ = self._socket.sendto(msg, (self._ip, self._port))
 

@@ -26,14 +26,14 @@ class Tello:
     self._ack_timeout = ack_timeout
 
   def send_command(self, command: TelloCommand, *args: Any,
-      wait_for_success=False) -> Union[bool, tuple[bool, Optional[str]]]:
+      wait_for_success=False) -> tuple[bool, Optional[str]]:
     str_args = [str(arg) for arg in args]
     packet = CommandPacket(command, payload=str_args)
     self.cmd.send(packet)
     self.command_history.append((time.time(), packet))
 
     if not wait_for_success:
-      return True
+      return True, None
 
     # Block until the drone acknowledges
     start = time.time()
@@ -52,7 +52,10 @@ class Tello:
   def battery(self) -> int:
     ret, msg = self.send_command(TelloCommand.CHECK_BATTERY,
         wait_for_success=True)
-    return msg
+    if ret and msg is not None:
+      return int(msg)
+    else:
+      raise ValueError("Could not check battery")
 
   def connect(self) -> bool:
     self.telem.connect()

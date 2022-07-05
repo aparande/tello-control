@@ -1,0 +1,16 @@
+{
+  "include": [
+    "*"
+  ],
+  
+  "exclude": [
+    "**/__pycache__"
+  ],
+
+  "reportMissingImports": true,
+  "reportMissingTypeStubs": false,
+
+  "pythonVersion": "3.9",
+  "pythonPlatform": "All"
+}
+

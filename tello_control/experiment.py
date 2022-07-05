@@ -34,8 +34,7 @@ class Experiment(abc.ABC):
       writer = csv.DictWriter(csv_file, fieldnames=TELEM_FIELDS)
 
       writer.writeheader()
-      while not self.tello.telem.messages.empty():
-        message = self.tello.telem.messages.get()
+      for message in self.tello.telem.history:
         writer.writerow(dataclasses.asdict(message))
 
   def log_command_history(self):

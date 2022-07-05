@@ -8,7 +8,7 @@ import dataclasses
 
 @dataclasses.dataclass
 class TelemetryPacket:
-  timestamp: int
+  timestamp: float
   pitch: int
   roll: int
   yaw: int
@@ -17,8 +17,8 @@ class TelemetryPacket:
   vel_z: int
   temp_l: int
   temp_h: int
-  flight_dist: int
-  height: int
+  flight_dist: float
+  height: float
   battery: int
   barometer: float
   time: int
@@ -27,7 +27,7 @@ class TelemetryPacket:
   accel_z: float
 
   @classmethod
-  def from_data_str(self, data: str):
+  def from_data_str(cls, data: str):
     # There is an ending semicolon
     key_val_pairs = data.split(';')[:-1]
     
@@ -38,22 +38,22 @@ class TelemetryPacket:
 
     return TelemetryPacket(
         timestamp=time.time(),
-        pitch=data_dict['pitch'],
-        roll=data_dict['roll'],
-        yaw=data_dict['yaw'],
-        vel_x=data_dict['vgx'],
-        vel_y=data_dict['vgy'],
-        vel_z=data_dict['vgz'],
-        temp_l=data_dict['templ'],
-        temp_h=data_dict['temph'],
-        height=data_dict['h'],
-        flight_dist=data_dict['tof'],
-        battery=data_dict['bat'],
-        barometer=data_dict['baro'],
-        time=data_dict['time'],
-        accel_x=data_dict['agx'],
-        accel_y=data_dict['agy'],
-        accel_z=data_dict['agz']
+        pitch=int(data_dict['pitch']),
+        roll=int(data_dict['roll']),
+        yaw=int(data_dict['yaw']),
+        vel_x=int(data_dict['vgx']),
+        vel_y=int(data_dict['vgy']),
+        vel_z=int(data_dict['vgz']),
+        temp_l=int(data_dict['templ']),
+        temp_h=int(data_dict['temph']),
+        height=float(data_dict['h']),
+        flight_dist=float(data_dict['tof']),
+        battery=int(data_dict['bat']),
+        barometer=float(data_dict['baro']),
+        time=int(data_dict['time']),
+        accel_x=float(data_dict['agx']),
+        accel_y=float(data_dict['agy']),
+        accel_z=float(data_dict['agz'])
     )
 
 class TelloCommand(enum.Enum):
