@@ -19,8 +19,8 @@ from tello_control import structs
 
 LOGGER = logging.getLogger("tello")
 
-class UdpInterface(abc.ABC):
 
+class UdpInterface(abc.ABC):
   def __init__(self, name: str, ip: str, port: int):
     self._name = name
     self._ip = ip
@@ -41,8 +41,10 @@ class UdpInterface(abc.ABC):
 
   def disconnect(self) -> None:
     if not self._is_streaming:
-      raise RuntimeError("Cannot end UDP stream because stream was never\
-      started")
+      raise RuntimeError(
+          "Cannot end UDP stream because stream was never\
+      started"
+      )
 
     LOGGER.info(f"Closing {self._name} UDP Connection")
 
@@ -74,7 +76,6 @@ class UdpInterface(abc.ABC):
 
 
 class UdpSocketInterface(UdpInterface):
-
   def _create_connection(self) -> None:
     self._socket = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
     self._socket.setblocking(False)
@@ -103,7 +104,6 @@ class UdpSocketInterface(UdpInterface):
 
 
 class TelemetryInterface(UdpSocketInterface):
-
   def __init__(self):
     super().__init__("Telemetry", '192.168.10.1', 8890)
     self.history = []
@@ -119,7 +119,6 @@ class TelemetryInterface(UdpSocketInterface):
 
 
 class CommandInterface(UdpSocketInterface):
-
   def __init__(self):
     super().__init__("Command", '192.168.10.1', 8889)
 

@@ -6,6 +6,7 @@ import time
 
 import dataclasses
 
+
 @dataclasses.dataclass
 class TelemetryPacket:
   timestamp: float
@@ -30,7 +31,7 @@ class TelemetryPacket:
   def from_data_str(cls, data: str):
     # There is an ending semicolon
     key_val_pairs = data.split(';')[:-1]
-    
+
     data_dict = {}
     for pair in key_val_pairs:
       key, val = pair.split(':')
@@ -56,6 +57,7 @@ class TelemetryPacket:
         accel_z=float(data_dict['agz'])
     )
 
+
 class TelloCommand(enum.Enum):
   SDK_ON = "command"
   START_VIDEO = "streamon"
@@ -66,6 +68,7 @@ class TelloCommand(enum.Enum):
   RC = "rc"
   CHECK_BATTERY = "battery?"
 
+
 @dataclasses.dataclass
 class CommandPacket:
   command: TelloCommand
@@ -75,4 +78,3 @@ class CommandPacket:
     if self.payload is None or len(self.payload) == 0:
       return self.command.value
     return f"{self.command.value} " + " ".join(self.payload)
-

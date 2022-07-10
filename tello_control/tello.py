@@ -10,14 +10,15 @@ import cv2
 import numpy as np
 
 from tello_control.structs import CommandPacket, TelloCommand
-from tello_control.udp_interface import (TelemetryInterface, CommandInterface,
-                                         VideoInterface)
+from tello_control.udp_interface import (
+    TelemetryInterface, CommandInterface, VideoInterface
+)
 
 LOGGER = logging.getLogger("tello")
 
-class Tello:
 
-  def __init__(self, ack_timeout: int=15):
+class Tello:
+  def __init__(self, ack_timeout: int = 15):
     self.telem = TelemetryInterface()
     self.cmd = CommandInterface()
     self.video = VideoInterface()
@@ -25,8 +26,12 @@ class Tello:
 
     self._ack_timeout = ack_timeout
 
-  def send_command(self, command: TelloCommand, *args: Any,
-      wait_for_success=False) -> tuple[bool, Optional[str]]:
+  def send_command(
+      self,
+      command: TelloCommand,
+      *args: Any,
+      wait_for_success=False
+  ) -> tuple[bool, Optional[str]]:
     str_args = [str(arg) for arg in args]
     packet = CommandPacket(command, payload=str_args)
     self.cmd.send(packet)
@@ -50,8 +55,9 @@ class Tello:
 
   @property
   def battery(self) -> int:
-    ret, msg = self.send_command(TelloCommand.CHECK_BATTERY,
-        wait_for_success=True)
+    ret, msg = self.send_command(
+        TelloCommand.CHECK_BATTERY, wait_for_success=True
+    )
     if ret and msg is not None:
       return int(msg)
     else:

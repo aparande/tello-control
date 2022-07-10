@@ -12,7 +12,6 @@ LOGGER = logging.getLogger("controller")
 
 
 class TelloController:
-
   def __init__(self, tello, control_frequency: float = 10):
     self._tello = tello
     self._telem_lock = threading.Lock()
@@ -72,6 +71,6 @@ class TelloController:
 
   @abc.abstractmethod
   def step(
-      self,
-      telemetry: list[TelemetryPacket]) -> tuple[float, float, float, float]:
+      self, telemetry: list[TelemetryPacket]
+  ) -> tuple[float, float, float, float]:
     pass
