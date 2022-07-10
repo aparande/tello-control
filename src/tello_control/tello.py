@@ -1,13 +1,9 @@
 from __future__ import annotations
-from typing import Optional, Any, Union
+from typing import Optional, Any
 
 import logging
-import threading
-import time
 import queue
-
-import cv2
-import numpy as np
+import time
 
 from tello_control.structs import CommandPacket, TelloCommand
 from tello_control.udp_interface import (

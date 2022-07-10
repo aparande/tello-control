@@ -5,7 +5,6 @@ from typing import Any, Optional
 import logging
 import threading
 import socket
-import sys
 import time
 import queue
 import errno
@@ -13,7 +12,6 @@ import errno
 import abc
 
 import cv2
-import numpy as np
 
 from tello_control import structs
 
@@ -100,15 +98,15 @@ class UdpSocketInterface(UdpInterface):
   def _create_connection(self) -> None:
     self._socket = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
     self._socket.setblocking(False)
-    self._socket.bind(('', self._port))
+    self._socket.bind(("", self._port))
 
   def _destroy_connection(self) -> None:
     self._socket.close()
 
   def _get_data(self) -> Optional[Any]:
     try:
-      data, server = self._socket.recvfrom(1518)
-      data = data.decode('utf8').strip()
+      data, _ = self._socket.recvfrom(1518)
+      data = data.decode("utf8").strip()
     except socket.error as e:
       if e.args[0] != errno.EAGAIN:
         LOGGER.error(f"{self._name} encountered socket error {e}")
@@ -137,7 +135,7 @@ class TelemetryInterface(UdpSocketInterface):
       connection
   """
   def __init__(self):
-    super().__init__("Telemetry", '192.168.10.1', 8890)
+    super().__init__("Telemetry", "192.168.10.1", 8890)
     self.history = []
 
   def _get_data(self) -> Optional[structs.TelemetryPacket]:
@@ -153,7 +151,7 @@ class TelemetryInterface(UdpSocketInterface):
 class CommandInterface(UdpSocketInterface):
   """A UDP socket for sending commands to the Tello and receiving responses"""
   def __init__(self):
-    super().__init__("Command", '192.168.10.1', 8889)
+    super().__init__("Command", "192.168.10.1", 8889)
 
   def _get_data(self) -> Optional[Any]:
     data = super()._get_data()
@@ -174,7 +172,7 @@ class CommandInterface(UdpSocketInterface):
 class VideoInterface(UdpInterface):
   """A UdpInterface using OpenCV to open a video socket to the Tello"""
   def __init__(self):
-    super().__init__("Video", '0.0.0.0', 11111)
+    super().__init__("Video", "0.0.0.0", 11111)
 
   def _create_connection(self) -> None:
     self._video_capture = cv2.VideoCapture(f"udp://{self._ip}:{self._port}")

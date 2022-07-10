@@ -3,13 +3,11 @@ import dataclasses
 
 import csv
 import os
-import time
-import threading
 import logging
 import pathlib
 
 from tello_control.tello import Tello
-from tello_control.structs import TelloCommand, TelemetryPacket
+from tello_control.structs import TelemetryPacket
 
 TELEM_FIELDS = [field.name for field in dataclasses.fields(TelemetryPacket)]
 
@@ -55,7 +53,7 @@ class Experiment(abc.ABC):
     if not os.path.exists(self._output_path):
       os.mkdir(self._output_path)
 
-    with open(self._output_path / "trace.csv", 'w') as csv_file:
+    with open(self._output_path / "trace.csv", "w") as csv_file:
       writer = csv.DictWriter(csv_file, fieldnames=TELEM_FIELDS)
 
       writer.writeheader()
@@ -67,7 +65,7 @@ class Experiment(abc.ABC):
     if not os.path.exists(self._output_path):
       os.mkdir(self._output_path)
 
-    with open(self._output_path / "command-history.csv", 'w') as csv_file:
+    with open(self._output_path / "command-history.csv", "w") as csv_file:
       writer = csv.writer(csv_file)
       writer.writerow(["Timestamp", "Command", "Arg0", "Arg1", "Arg2", "Arg3"])
       for timestamp, cmd in self.tello.command_history:

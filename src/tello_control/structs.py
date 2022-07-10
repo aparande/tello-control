@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from typing import Any, Optional
+from typing import Optional
 import enum
 import time
 
@@ -90,14 +90,14 @@ class TelemetryPacket:
 
 class TelloCommand(enum.Enum):
   """Support commands to send the Tello"""
-  SDK_ON = "command"
-  START_VIDEO = "streamon"
-  STOP_VIDEO = "streamoff"
-  TAKE_OFF = "takeoff"
-  LAND = "land"
-  HOVER = "stop"
-  RC = "rc"
-  CHECK_BATTERY = "battery?"
+  SDK_ON = 'command'
+  START_VIDEO = 'streamon'
+  STOP_VIDEO = 'streamoff'
+  TAKE_OFF = 'takeoff'
+  LAND = 'land'
+  HOVER = 'stop'
+  RC = 'rc'
+  CHECK_BATTERY = 'battery?'
 
 
 @dataclasses.dataclass
@@ -114,4 +114,4 @@ class CommandPacket:
   def __str__(self) -> str:
     if self.payload is None or len(self.payload) == 0:
       return self.command.value
-    return f"{self.command.value} " + " ".join(self.payload)
+    return f'{self.command.value} ' + ' '.join(self.payload)

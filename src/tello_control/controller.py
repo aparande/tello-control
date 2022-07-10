@@ -62,22 +62,20 @@ class TelloController(abc.ABC):
     Outputs of the control step are clamped between -100 and 100.
     """
     while not self._stop_event.is_set():
-      self._telem_lock.acquire()
+      with self._telem_lock:
+        try:
+          ux, uy, uz, ua = self.step(self._pending_telem)
+          ux = utils.clip_rc(ux)
+          uy = utils.clip_rc(uy)
+          uz = utils.clip_rc(uz)
+          ua = utils.clip_rc(ua)
 
-      try:
-        ux, uy, uz, ua = self.step(self._pending_telem)
-        ux = utils.clip_rc(ux)
-        uy = utils.clip_rc(uy)
-        uz = utils.clip_rc(uz)
-        ua = utils.clip_rc(ua)
+          self._tello.send_command(TelloCommand.RC, ux, uy, uz, ua)
+        except Exception as e:
+          LOGGER.error(f"Landing tello due to error: {e}")
+          self.stop()
 
-        self._tello.send_command(TelloCommand.RC, ux, uy, uz, ua)
-      except Exception as e:
-        LOGGER.error(f"Landing tello due to error: {e}")
-        self.stop()
-
-      self._pending_telem = []
-      self._telem_lock.release()
+        self._pending_telem = []
 
       time.sleep(1 / self._control_frequency)
 
@@ -93,9 +91,8 @@ class TelloController(abc.ABC):
       telem = self._tello.telem.messages.get()
 
       # Acquire the lock to add to the pending telemetry
-      self._telem_lock.acquire()
-      self._pending_telem.append(telem)
-      self._telem_lock.release()
+      with self._telem_lock:
+        self._pending_telem.append(telem)
 
   @abc.abstractmethod
   def step(
@@ -108,7 +105,8 @@ class TelloController(abc.ABC):
     frequency the Controller was created with.
 
     Args:
-      telemetry: A list of TelemetryPackets which arrived since the last execution.
+      telemetry: A list of TelemetryPackets which arrived since the last
+        execution.
 
     Returns:
       A tuple representing the x, y, z, and yaw rc command that should be sent
