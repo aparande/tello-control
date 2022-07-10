@@ -9,6 +9,30 @@ import dataclasses
 
 @dataclasses.dataclass
 class TelemetryPacket:
+  """Container for Tello Telemetry.
+
+  All telemetry points are specified in the Tello SDK User Manual
+  https://dl-cdn.ryzerobotics.com/downloads/Tello/Tello%20SDK%202.0%20User%20Guide.pdf
+
+  Args:
+    timestamp: When the Telemetry was recorded.
+    pitch: the pitch angle of the Tello.
+    roll: the roll angle of the Tello.
+    yaw: the yaw angle of the Tello.
+    vel_x: drone velocity in the x direction.
+    vel_y: drone velocity in the y direction.
+    vel_z: drone velocity in the z direction.
+    temp_l: Corresponds to templ from the SDK
+    temp_h: Corresponds to temph from the SDK
+    flight_dist: Corresponds to tof from the SDK.
+    height: drone height
+    battery: drone battery
+    barometer: Corresponds to baro from the SDK.
+    time: flight time
+    accel_x: drone acceleration in the x direction.
+    accel_y: drone acceleration in the y direction.
+    accel_z: drone acceleration in the z direction.
+  """
   timestamp: float
   pitch: int
   roll: int
@@ -29,6 +53,11 @@ class TelemetryPacket:
 
   @classmethod
   def from_data_str(cls, data: str):
+    """Constructs a TelemetryPacket from a string sent by the drone.
+
+    The format of the telemetry coming from the drone is given in the Tello SDK
+    User Guide.
+    """
     # There is an ending semicolon
     key_val_pairs = data.split(';')[:-1]
 
@@ -71,6 +100,12 @@ class TelloCommand(enum.Enum):
 
 @dataclasses.dataclass
 class CommandPacket:
+  """Container for TelloCommands
+
+  Args:
+    command: The command name to be sent
+    payload: A list of arguments to be sent along with the command name
+  """
   command: TelloCommand
   payload: Optional[list[str]] = None
 

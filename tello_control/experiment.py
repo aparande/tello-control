@@ -17,17 +17,38 @@ LOGGER = logging.getLogger("experiment")
 
 
 class Experiment(abc.ABC):
+  """
+  Abstract class which provides a framework to analyze a session with the tello.
+
+  Experiments record the telemetry read from the tello and the commands sent to
+  the tello to CSVs which can be later analyzed.
+  """
   def __init__(self, output_path: str):
     self.tello = Tello()
     self._output_path = pathlib.Path(output_path)
 
   def setUp(self) -> bool:
+    """
+    Do all setup related to the experiment.
+
+    At a minimum, this method simply connects to the Tello and returns whether
+    or not that connection was successful.
+
+    Returns:
+      Whether or not connecting to the tello was successful.
+    """
     return self.tello.connect()
 
   def tearDown(self):
+    """
+    Destroy any objects created during the experiment.
+
+    At a minimum, this method simply disconnects from the Tello.
+    """
     self.tello.disconnect()
 
   def log_results(self):
+    """Write the telemetry trace to the experiment output path"""
     if not os.path.exists(self._output_path):
       os.mkdir(self._output_path)
 
@@ -39,6 +60,7 @@ class Experiment(abc.ABC):
         writer.writerow(dataclasses.asdict(message))
 
   def log_command_history(self):
+    """Write the command history to the experiment output path"""
     if not os.path.exists(self._output_path):
       os.mkdir(self._output_path)
 
@@ -49,8 +71,14 @@ class Experiment(abc.ABC):
         writer.writerow([timestamp, cmd.command, *cmd.payload])
 
   def run(self):
+    """Run the experiment
+
+    Running an experiment entails setting up the experiment, running the main
+    function, and tearing down any created resources.
+    """
     if not self.setUp():
       LOGGER.error("Did not run experiment because could not connect to drone")
+      return
 
     self.main()
 
@@ -61,4 +89,8 @@ class Experiment(abc.ABC):
 
   @abc.abstractmethod
   def main(self):
+    """Main loop of the experiment
+
+    An experiment is created by overriding this method at minimum
+    """
     pass
