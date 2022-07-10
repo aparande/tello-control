@@ -1,0 +1,555 @@
+
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+    <title>tello_control package &#8212; tello_control 1.0.0 documentation</title>
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="_static/alabaster.css" />
+    <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
+    <script src="_static/doctools.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="tello_control" href="modules.html" />
+    <link rel="prev" title="Welcome to tello_control’s documentation!" href="index.html" />
+   
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <section id="tello-control-package">
+<h1>tello_control package<a class="headerlink" href="#tello-control-package" title="Permalink to this heading">¶</a></h1>
+<section id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this heading">¶</a></h2>
+</section>
+<section id="module-tello_control.controller">
+<span id="tello-control-controller-module"></span><h2>tello_control.controller module<a class="headerlink" href="#module-tello_control.controller" title="Permalink to this heading">¶</a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="tello_control.controller.TelloController">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">tello_control.controller.</span></span><span class="sig-name descname"><span class="pre">TelloController</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">tello</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#tello_control.tello.Tello" title="tello_control.tello.Tello"><span class="pre">Tello</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">control_frequency</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">10</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#tello_control.controller.TelloController" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">ABC</span></code></p>
+<p>An abstract base class for a Tello controller.</p>
+<p>It runs a control step at a specified frequency (default 10 Hz) and processes
+telemetry for use in the control step.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="tello_control.controller.TelloController.start">
+<span class="sig-name descname"><span class="pre">start</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#tello_control.controller.TelloController.start" title="Permalink to this definition">¶</a></dt>
+<dd><p>Start running the controller.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="tello_control.controller.TelloController.step">
+<em class="property"><span class="pre">abstract</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">step</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">telemetry</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#tello_control.structs.TelemetryPacket" title="tello_control.structs.TelemetryPacket"><span class="pre">tello_control.structs.TelemetryPacket</span></a><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">float</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">float</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#tello_control.controller.TelloController.step" title="Permalink to this definition">¶</a></dt>
+<dd><p>The main control step.</p>
+<p>A Controller is created by overriding at least this method. It is run at the
+frequency the Controller was created with.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>telemetry</strong> – A list of TelemetryPackets which arrived since the last</p></li>
+<li><p><strong>execution.</strong> – </p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A tuple representing the x, y, z, and yaw rc command that should be sent
+to the Tello</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="tello_control.controller.TelloController.stop">
+<span class="sig-name descname"><span class="pre">stop</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#tello_control.controller.TelloController.stop" title="Permalink to this definition">¶</a></dt>
+<dd><p>Stop running the controller.</p>
+<p>This method closes both the telemetry thread and the control thread that it
+started when the controller began execution.</p>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-tello_control.experiment">
+<span id="tello-control-experiment-module"></span><h2>tello_control.experiment module<a class="headerlink" href="#module-tello_control.experiment" title="Permalink to this heading">¶</a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="tello_control.experiment.Experiment">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">tello_control.experiment.</span></span><span class="sig-name descname"><span class="pre">Experiment</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">output_path</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#tello_control.experiment.Experiment" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">ABC</span></code></p>
+<p>Abstract class which provides a framework to analyze a session with the tello.</p>
+<p>Experiments record the telemetry read from the tello and the commands sent to
+the tello to CSVs which can be later analyzed.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="tello_control.experiment.Experiment.log_command_history">
+<span class="sig-name descname"><span class="pre">log_command_history</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#tello_control.experiment.Experiment.log_command_history" title="Permalink to this definition">¶</a></dt>
+<dd><p>Write the command history to the experiment output path</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="tello_control.experiment.Experiment.log_results">
+<span class="sig-name descname"><span class="pre">log_results</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#tello_control.experiment.Experiment.log_results" title="Permalink to this definition">¶</a></dt>
+<dd><p>Write the telemetry trace to the experiment output path</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="tello_control.experiment.Experiment.main">
+<em class="property"><span class="pre">abstract</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">main</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#tello_control.experiment.Experiment.main" title="Permalink to this definition">¶</a></dt>
+<dd><p>Main loop of the experiment</p>
+<p>An experiment is created by overriding this method at minimum</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="tello_control.experiment.Experiment.run">
+<span class="sig-name descname"><span class="pre">run</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#tello_control.experiment.Experiment.run" title="Permalink to this definition">¶</a></dt>
+<dd><p>Run the experiment</p>
+<p>Running an experiment entails setting up the experiment, running the main
+function, and tearing down any created resources.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="tello_control.experiment.Experiment.setUp">
+<span class="sig-name descname"><span class="pre">setUp</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="headerlink" href="#tello_control.experiment.Experiment.setUp" title="Permalink to this definition">¶</a></dt>
+<dd><p>Do all setup related to the experiment.</p>
+<p>At a minimum, this method simply connects to the Tello and returns whether
+or not that connection was successful.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Whether or not connecting to the tello was successful.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="tello_control.experiment.Experiment.tearDown">
+<span class="sig-name descname"><span class="pre">tearDown</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#tello_control.experiment.Experiment.tearDown" title="Permalink to this definition">¶</a></dt>
+<dd><p>Destroy any objects created during the experiment.</p>
+<p>At a minimum, this method simply disconnects from the Tello.</p>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-tello_control.structs">
+<span id="tello-control-structs-module"></span><h2>tello_control.structs module<a class="headerlink" href="#module-tello_control.structs" title="Permalink to this heading">¶</a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="tello_control.structs.CommandPacket">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">tello_control.structs.</span></span><span class="sig-name descname"><span class="pre">CommandPacket</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">command</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#tello_control.structs.TelloCommand" title="tello_control.structs.TelloCommand"><span class="pre">TelloCommand</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">payload</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#tello_control.structs.CommandPacket" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Container for TelloCommands</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>command</strong> – The command name to be sent</p></li>
+<li><p><strong>payload</strong> – A list of arguments to be sent along with the command name</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="tello_control.structs.CommandPacket.command">
+<span class="sig-name descname"><span class="pre">command</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="#tello_control.structs.TelloCommand" title="tello_control.structs.TelloCommand"><span class="pre">TelloCommand</span></a></em><a class="headerlink" href="#tello_control.structs.CommandPacket.command" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="tello_control.structs.CommandPacket.payload">
+<span class="sig-name descname"><span class="pre">payload</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#tello_control.structs.CommandPacket.payload" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="tello_control.structs.TelemetryPacket">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">tello_control.structs.</span></span><span class="sig-name descname"><span class="pre">TelemetryPacket</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">timestamp</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pitch</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">roll</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">yaw</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">vel_x</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">vel_y</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">vel_z</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">temp_l</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">temp_h</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">flight_dist</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">height</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">battery</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">barometer</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">time</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">accel_x</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">accel_y</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">accel_z</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#tello_control.structs.TelemetryPacket" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Container for Tello Telemetry.</p>
+<p>All telemetry points are specified in the Tello SDK User Manual
+<a class="reference external" href="https://dl-cdn.ryzerobotics.com/downloads/Tello/Tello%20SDK%202.0%20User%20Guide.pdf">https://dl-cdn.ryzerobotics.com/downloads/Tello/Tello%20SDK%202.0%20User%20Guide.pdf</a></p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>timestamp</strong> – When the Telemetry was recorded.</p></li>
+<li><p><strong>pitch</strong> – the pitch angle of the Tello.</p></li>
+<li><p><strong>roll</strong> – the roll angle of the Tello.</p></li>
+<li><p><strong>yaw</strong> – the yaw angle of the Tello.</p></li>
+<li><p><strong>vel_x</strong> – drone velocity in the x direction.</p></li>
+<li><p><strong>vel_y</strong> – drone velocity in the y direction.</p></li>
+<li><p><strong>vel_z</strong> – drone velocity in the z direction.</p></li>
+<li><p><strong>temp_l</strong> – Corresponds to templ from the SDK</p></li>
+<li><p><strong>temp_h</strong> – Corresponds to temph from the SDK</p></li>
+<li><p><strong>flight_dist</strong> – Corresponds to tof from the SDK.</p></li>
+<li><p><strong>height</strong> – drone height</p></li>
+<li><p><strong>battery</strong> – drone battery</p></li>
+<li><p><strong>barometer</strong> – Corresponds to baro from the SDK.</p></li>
+<li><p><strong>time</strong> – flight time</p></li>
+<li><p><strong>accel_x</strong> – drone acceleration in the x direction.</p></li>
+<li><p><strong>accel_y</strong> – drone acceleration in the y direction.</p></li>
+<li><p><strong>accel_z</strong> – drone acceleration in the z direction.</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="tello_control.structs.TelemetryPacket.accel_x">
+<span class="sig-name descname"><span class="pre">accel_x</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">float</span></em><a class="headerlink" href="#tello_control.structs.TelemetryPacket.accel_x" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="tello_control.structs.TelemetryPacket.accel_y">
+<span class="sig-name descname"><span class="pre">accel_y</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">float</span></em><a class="headerlink" href="#tello_control.structs.TelemetryPacket.accel_y" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="tello_control.structs.TelemetryPacket.accel_z">
+<span class="sig-name descname"><span class="pre">accel_z</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">float</span></em><a class="headerlink" href="#tello_control.structs.TelemetryPacket.accel_z" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="tello_control.structs.TelemetryPacket.barometer">
+<span class="sig-name descname"><span class="pre">barometer</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">float</span></em><a class="headerlink" href="#tello_control.structs.TelemetryPacket.barometer" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="tello_control.structs.TelemetryPacket.battery">
+<span class="sig-name descname"><span class="pre">battery</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">int</span></em><a class="headerlink" href="#tello_control.structs.TelemetryPacket.battery" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="tello_control.structs.TelemetryPacket.flight_dist">
+<span class="sig-name descname"><span class="pre">flight_dist</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">float</span></em><a class="headerlink" href="#tello_control.structs.TelemetryPacket.flight_dist" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="tello_control.structs.TelemetryPacket.from_data_str">
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">from_data_str</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#tello_control.structs.TelemetryPacket.from_data_str" title="Permalink to this definition">¶</a></dt>
+<dd><p>Constructs a TelemetryPacket from a string sent by the drone.</p>
+<p>The format of the telemetry coming from the drone is given in the Tello SDK
+User Guide.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="tello_control.structs.TelemetryPacket.height">
+<span class="sig-name descname"><span class="pre">height</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">float</span></em><a class="headerlink" href="#tello_control.structs.TelemetryPacket.height" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="tello_control.structs.TelemetryPacket.pitch">
+<span class="sig-name descname"><span class="pre">pitch</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">int</span></em><a class="headerlink" href="#tello_control.structs.TelemetryPacket.pitch" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="tello_control.structs.TelemetryPacket.roll">
+<span class="sig-name descname"><span class="pre">roll</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">int</span></em><a class="headerlink" href="#tello_control.structs.TelemetryPacket.roll" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="tello_control.structs.TelemetryPacket.temp_h">
+<span class="sig-name descname"><span class="pre">temp_h</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">int</span></em><a class="headerlink" href="#tello_control.structs.TelemetryPacket.temp_h" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="tello_control.structs.TelemetryPacket.temp_l">
+<span class="sig-name descname"><span class="pre">temp_l</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">int</span></em><a class="headerlink" href="#tello_control.structs.TelemetryPacket.temp_l" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="tello_control.structs.TelemetryPacket.time">
+<span class="sig-name descname"><span class="pre">time</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">int</span></em><a class="headerlink" href="#tello_control.structs.TelemetryPacket.time" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="tello_control.structs.TelemetryPacket.timestamp">
+<span class="sig-name descname"><span class="pre">timestamp</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">float</span></em><a class="headerlink" href="#tello_control.structs.TelemetryPacket.timestamp" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="tello_control.structs.TelemetryPacket.vel_x">
+<span class="sig-name descname"><span class="pre">vel_x</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">int</span></em><a class="headerlink" href="#tello_control.structs.TelemetryPacket.vel_x" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="tello_control.structs.TelemetryPacket.vel_y">
+<span class="sig-name descname"><span class="pre">vel_y</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">int</span></em><a class="headerlink" href="#tello_control.structs.TelemetryPacket.vel_y" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="tello_control.structs.TelemetryPacket.vel_z">
+<span class="sig-name descname"><span class="pre">vel_z</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">int</span></em><a class="headerlink" href="#tello_control.structs.TelemetryPacket.vel_z" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="tello_control.structs.TelemetryPacket.yaw">
+<span class="sig-name descname"><span class="pre">yaw</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">int</span></em><a class="headerlink" href="#tello_control.structs.TelemetryPacket.yaw" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="tello_control.structs.TelloCommand">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">tello_control.structs.</span></span><span class="sig-name descname"><span class="pre">TelloCommand</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#tello_control.structs.TelloCommand" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Enum</span></code></p>
+<p>An enumeration.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="tello_control.structs.TelloCommand.CHECK_BATTERY">
+<span class="sig-name descname"><span class="pre">CHECK_BATTERY</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'battery?'</span></em><a class="headerlink" href="#tello_control.structs.TelloCommand.CHECK_BATTERY" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="tello_control.structs.TelloCommand.HOVER">
+<span class="sig-name descname"><span class="pre">HOVER</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'stop'</span></em><a class="headerlink" href="#tello_control.structs.TelloCommand.HOVER" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="tello_control.structs.TelloCommand.LAND">
+<span class="sig-name descname"><span class="pre">LAND</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'land'</span></em><a class="headerlink" href="#tello_control.structs.TelloCommand.LAND" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="tello_control.structs.TelloCommand.RC">
+<span class="sig-name descname"><span class="pre">RC</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'rc'</span></em><a class="headerlink" href="#tello_control.structs.TelloCommand.RC" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="tello_control.structs.TelloCommand.SDK_ON">
+<span class="sig-name descname"><span class="pre">SDK_ON</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'command'</span></em><a class="headerlink" href="#tello_control.structs.TelloCommand.SDK_ON" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="tello_control.structs.TelloCommand.START_VIDEO">
+<span class="sig-name descname"><span class="pre">START_VIDEO</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'streamon'</span></em><a class="headerlink" href="#tello_control.structs.TelloCommand.START_VIDEO" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="tello_control.structs.TelloCommand.STOP_VIDEO">
+<span class="sig-name descname"><span class="pre">STOP_VIDEO</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'streamoff'</span></em><a class="headerlink" href="#tello_control.structs.TelloCommand.STOP_VIDEO" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="tello_control.structs.TelloCommand.TAKE_OFF">
+<span class="sig-name descname"><span class="pre">TAKE_OFF</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'takeoff'</span></em><a class="headerlink" href="#tello_control.structs.TelloCommand.TAKE_OFF" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-tello_control.tello">
+<span id="tello-control-tello-module"></span><h2>tello_control.tello module<a class="headerlink" href="#module-tello_control.tello" title="Permalink to this heading">¶</a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="tello_control.tello.Tello">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">tello_control.tello.</span></span><span class="sig-name descname"><span class="pre">Tello</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ack_timeout</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">15</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#tello_control.tello.Tello" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>The primary interface between the user and the Tello</p>
+<dl class="py property">
+<dt class="sig sig-object py" id="tello_control.tello.Tello.battery">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">battery</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">int</span></em><a class="headerlink" href="#tello_control.tello.Tello.battery" title="Permalink to this definition">¶</a></dt>
+<dd><p>Check the Tello battery</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="tello_control.tello.Tello.connect">
+<span class="sig-name descname"><span class="pre">connect</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="headerlink" href="#tello_control.tello.Tello.connect" title="Permalink to this definition">¶</a></dt>
+<dd><p>Connect to the Tello</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Whether or not the Tello connection was successful</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="tello_control.tello.Tello.disconnect">
+<span class="sig-name descname"><span class="pre">disconnect</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#tello_control.tello.Tello.disconnect" title="Permalink to this definition">¶</a></dt>
+<dd><p>Disconnect from the tello</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="tello_control.tello.Tello.end_video_stream">
+<span class="sig-name descname"><span class="pre">end_video_stream</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#tello_control.tello.Tello.end_video_stream" title="Permalink to this definition">¶</a></dt>
+<dd><p>Stop the video stream</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="tello_control.tello.Tello.send_command">
+<span class="sig-name descname"><span class="pre">send_command</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">command</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#tello_control.structs.TelloCommand" title="tello_control.structs.TelloCommand"><span class="pre">TelloCommand</span></a></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Any</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">wait_for_success</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">bool</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#tello_control.tello.Tello.send_command" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sends a command to the Tello</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>command</strong> – The TelloCommand to send.</p></li>
+<li><p><strong>*args</strong> – Any arguments the Tello command takes.</p></li>
+<li><p><strong>wait_for_success</strong> – Whether or not to wait until the Tello response</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="tello_control.tello.Tello.stream_video">
+<span class="sig-name descname"><span class="pre">stream_video</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#tello_control.tello.Tello.stream_video" title="Permalink to this definition">¶</a></dt>
+<dd><p>Turn on the video stream</p>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-tello_control.udp_interface">
+<span id="tello-control-udp-interface-module"></span><h2>tello_control.udp_interface module<a class="headerlink" href="#module-tello_control.udp_interface" title="Permalink to this heading">¶</a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="tello_control.udp_interface.CommandInterface">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">tello_control.udp_interface.</span></span><span class="sig-name descname"><span class="pre">CommandInterface</span></span><a class="headerlink" href="#tello_control.udp_interface.CommandInterface" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#tello_control.udp_interface.UdpSocketInterface" title="tello_control.udp_interface.UdpSocketInterface"><code class="xref py py-class docutils literal notranslate"><span class="pre">UdpSocketInterface</span></code></a></p>
+<p>A UDP socket for sending commands to the Tello and receiving responses</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="tello_control.udp_interface.CommandInterface.send">
+<span class="sig-name descname"><span class="pre">send</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">packet</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#tello_control.structs.CommandPacket" title="tello_control.structs.CommandPacket"><span class="pre">CommandPacket</span></a></span></em><span class="sig-paren">)</span><a class="headerlink" href="#tello_control.udp_interface.CommandInterface.send" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="tello_control.udp_interface.TelemetryInterface">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">tello_control.udp_interface.</span></span><span class="sig-name descname"><span class="pre">TelemetryInterface</span></span><a class="headerlink" href="#tello_control.udp_interface.TelemetryInterface" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#tello_control.udp_interface.UdpSocketInterface" title="tello_control.udp_interface.UdpSocketInterface"><code class="xref py py-class docutils literal notranslate"><span class="pre">UdpSocketInterface</span></code></a></p>
+<p>A UDP socket which processes Tello telemetry</p>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="tello_control.udp_interface.UdpInterface">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">tello_control.udp_interface.</span></span><span class="sig-name descname"><span class="pre">UdpInterface</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ip</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">port</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#tello_control.udp_interface.UdpInterface" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">ABC</span></code></p>
+<p>An abstract class for a general UDP Interface</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="tello_control.udp_interface.UdpInterface.connect">
+<span class="sig-name descname"><span class="pre">connect</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#tello_control.udp_interface.UdpInterface.connect" title="Permalink to this definition">¶</a></dt>
+<dd><p>Connect via UDP.</p>
+<p>This method also creates a thread to continuously wait for and read data
+from the UDP socket.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="tello_control.udp_interface.UdpInterface.disconnect">
+<span class="sig-name descname"><span class="pre">disconnect</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#tello_control.udp_interface.UdpInterface.disconnect" title="Permalink to this definition">¶</a></dt>
+<dd><p>Disconnect from UDP</p>
+<p>This method stops the thread which is consuming data from the socket.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="tello_control.udp_interface.UdpSocketInterface">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">tello_control.udp_interface.</span></span><span class="sig-name descname"><span class="pre">UdpSocketInterface</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ip</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">port</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#tello_control.udp_interface.UdpSocketInterface" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#tello_control.udp_interface.UdpInterface" title="tello_control.udp_interface.UdpInterface"><code class="xref py py-class docutils literal notranslate"><span class="pre">UdpInterface</span></code></a></p>
+<p>A UdpInterface representing a traditional UDP socket. Also an abstract
+class</p>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="tello_control.udp_interface.VideoInterface">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">tello_control.udp_interface.</span></span><span class="sig-name descname"><span class="pre">VideoInterface</span></span><a class="headerlink" href="#tello_control.udp_interface.VideoInterface" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#tello_control.udp_interface.UdpInterface" title="tello_control.udp_interface.UdpInterface"><code class="xref py py-class docutils literal notranslate"><span class="pre">UdpInterface</span></code></a></p>
+<p>A UdpInterface using OpenCV to open a video socket to the Tello</p>
+</dd></dl>
+
+</section>
+<section id="module-tello_control.utils">
+<span id="tello-control-utils-module"></span><h2>tello_control.utils module<a class="headerlink" href="#module-tello_control.utils" title="Permalink to this heading">¶</a></h2>
+<dl class="py function">
+<dt class="sig sig-object py" id="tello_control.utils.clip_rc">
+<span class="sig-prename descclassname"><span class="pre">tello_control.utils.</span></span><span class="sig-name descname"><span class="pre">clip_rc</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#tello_control.utils.clip_rc" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</section>
+</section>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="index.html">tello_control</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+<p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">tello_control package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#submodules">Submodules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#module-tello_control.controller">tello_control.controller module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#module-tello_control.experiment">tello_control.experiment module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#module-tello_control.structs">tello_control.structs module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#module-tello_control.tello">tello_control.tello module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#module-tello_control.udp_interface">tello_control.udp_interface module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#module-tello_control.utils">tello_control.utils module</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="modules.html">tello_control</a></li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="index.html" title="previous chapter">Welcome to tello_control’s documentation!</a></li>
+      <li>Next: <a href="modules.html" title="next chapter">tello_control</a></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2022, Anmol Parande.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 5.0.2</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      
+      |
+      <a href="_sources/tello_control.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>
