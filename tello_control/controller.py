@@ -18,10 +18,14 @@ class TelloController:
     self._thread = threading.Thread(target=self._run)
     self._stop_event = threading.Event()
     self._thread.start()
+    self._start_time = time.time()
+    LOGGER.info(f"Starting control at {self._start_time}")
 
   def stop(self):
     self._stop_event.set()
     self._thread.join()
+    self._end_time = time.time()
+    LOGGER.info(f"Ending control at {self._start_time}")
 
   def _run(self):
     while not self._stop_event.is_set():
