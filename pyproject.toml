@@ -1,0 +1,18 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "tello_control"
+version = "1.0.0"
+authors = [
+	{ name="Anmol Parande", email="parande.anmol@gmail.com" }
+]
+description = "A package for doing feedback control for the DJI Ryze Tello Drone"
+readme = "README.md"
+license = { file="LICENSE" }
+requires-python = ">=3.7"
+classifiers = [
+	"Programming Language :: Python :: 3"
+]
+

@@ -3,7 +3,7 @@ import pathlib
 import sys
 import time
 
-tld = pathlib.Path(__file__).resolve().parent.parent.parent
+tld = pathlib.Path(__file__).resolve().parent.parent.parent / 'src'
 sys.path.append(str(tld))
 
 from tello_control import Tello

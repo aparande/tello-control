@@ -7,7 +7,7 @@ import logging
 import cv2
 import numpy as np
 
-tld = pathlib.Path(__file__).resolve().parent.parent.parent
+tld = pathlib.Path(__file__).resolve().parent.parent.parent / 'src'
 sys.path.append(str(tld))
 
 import tello_control
