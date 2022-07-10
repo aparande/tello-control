@@ -10,45 +10,67 @@ from tello_control import utils
 
 LOGGER = logging.getLogger("controller")
 
+
 class TelloController:
+
   def __init__(self, tello):
     self._tello = tello
+    self._telem_lock = threading.Lock()
+    self._pending_telem = []
 
   def start(self):
-    self._thread = threading.Thread(target=self._run)
+    self._control_thread = threading.Thread(target=self._run)
+    self._telem_thread = threading.Thread(target=self._process_telem)
     self._stop_event = threading.Event()
-    self._thread.start()
+
+    self._control_thread.start()
+    self._telem_thread.start()
+
     self._start_time = time.time()
     LOGGER.info(f"Starting control at {self._start_time}")
 
   def stop(self):
     self._stop_event.set()
-    self._thread.join()
+
+    self._telem_thread.join()
+    self._control_thread.join()
+
     self._end_time = time.time()
     LOGGER.info(f"Ending control at {self._start_time}")
 
   def _run(self):
     while not self._stop_event.is_set():
-      telemetry = []
-      while not self._tello.telem.messages.empty():
-        telemetry.append(self._tello.telem.messages.get())
+      self._telem_lock.acquire()
 
       try:
-        ux, uy, uz, ua = self.step(telemetry)
-        ux = utils.clip_rc(ux) 
-        uy = utils.clip_rc(uy) 
-        uz = utils.clip_rc(uz) 
-        ua = utils.clip_rc(ua) 
+        ux, uy, uz, ua = self.step(self._pending_telem)
+        ux = utils.clip_rc(ux)
+        uy = utils.clip_rc(uy)
+        uz = utils.clip_rc(uz)
+        ua = utils.clip_rc(ua)
 
         self._tello.send_command(TelloCommand.RC, ux, uy, uz, ua)
       except Exception as e:
         LOGGER.error(f"Landing tello due to error: {e}")
         self.stop()
 
+      self._pending_telem = []
+      self._telem_lock.release()
+
       time.sleep(0.1)
 
-  @abc.abstractmethod
-  def step(self, telemetry: list[TelemetryPacket]) -> tuple[float, float, float,
-      float]:
-    pass
+  def _process_telem(self):
+    while not self._stop_event.is_set():
+      # Blocks until something is available
+      telem = self._tello.telem.messages.get()
 
+      # Acquire the lock to add to the pending telemetry
+      self._telem_lock.acquire()
+      self._pending_telem.append(telem)
+      self._telem_lock.release()
+
+  @abc.abstractmethod
+  def step(
+      self,
+      telemetry: list[TelemetryPacket]) -> tuple[float, float, float, float]:
+    pass
