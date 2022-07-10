@@ -17,8 +17,10 @@ if __name__ == '__main__':
   logger.setLevel(logging.DEBUG)
 
   tello = tello_control.Tello()
-  tello.connect()
-  time.sleep(0.1)
+  if not tello.connect():
+    logger.info("Exiting because tello connection failed")
+    tello.disconnect()
+    sys.exit(1)
 
   tello.stream_video()
   cv2.imshow('Tello', np.zeros((640, 640, 3)))

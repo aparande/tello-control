@@ -14,7 +14,10 @@ if __name__ == "__main__":
 
   tello = Tello()
 
-  tello.connect()
+  if not tello.connect():
+    logger.info("Exiting because tello connection failed")
+    tello.disconnect()
+    sys.exit(1)
 
   start = time.time()
   while True:

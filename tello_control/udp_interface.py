@@ -86,12 +86,15 @@ class UdpSocketInterface(UdpInterface):
   def _get_data(self) -> Optional[Any]:
     try:
       data, server = self._socket.recvfrom(1518)
+      data = data.decode('utf8').strip()
     except socket.error as e:
       if e.args[0] != errno.EAGAIN:
         LOGGER.error(f"{self._name} encountered socket error {e}")
       return
+    except UnicodeDecodeError as e:
+      LOGGER.error(f"Could not decode Tello packet: {e}")
+      return
 
-    data = data.decode('utf8').strip()
     return self._format_packet(data)
 
   @abc.abstractmethod
