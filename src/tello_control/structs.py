@@ -11,8 +11,9 @@ import dataclasses
 class TelemetryPacket:
   """Container for Tello Telemetry.
 
-  All telemetry points are specified in the Tello SDK User Manual
-  https://dl-cdn.ryzerobotics.com/downloads/Tello/Tello%20SDK%202.0%20User%20Guide.pdf
+  All telemetry points are specified in the `Tello SDK User
+  Manual
+  <https://dl-cdn.ryzerobotics.com/downloads/Tello/Tello%20SDK%202.0%20User%20Guide.pdf>`_
 
   Args:
     timestamp: When the Telemetry was recorded.
@@ -88,6 +89,7 @@ class TelemetryPacket:
 
 
 class TelloCommand(enum.Enum):
+  """Support commands to send the Tello"""
   SDK_ON = "command"
   START_VIDEO = "streamon"
   STOP_VIDEO = "streamoff"

@@ -22,6 +22,9 @@ class Experiment(abc.ABC):
 
   Experiments record the telemetry read from the tello and the commands sent to
   the tello to CSVs which can be later analyzed.
+
+  Attributes:
+    tello: The Tello which the experiment is being run with.
   """
   def __init__(self, output_path: str):
     self.tello = Tello()

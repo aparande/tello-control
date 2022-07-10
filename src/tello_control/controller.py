@@ -108,8 +108,7 @@ class TelloController(abc.ABC):
     frequency the Controller was created with.
 
     Args:
-      telemetry: A list of TelemetryPackets which arrived since the last
-      execution.
+      telemetry: A list of TelemetryPackets which arrived since the last execution.
 
     Returns:
       A tuple representing the x, y, z, and yaw rc command that should be sent
