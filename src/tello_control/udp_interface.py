@@ -21,7 +21,11 @@ LOGGER = logging.getLogger("tello")
 
 
 class UdpInterface(abc.ABC):
-  """An abstract class for a general UDP Interface"""
+  """An abstract class for a general UDP Interface
+
+  Attributes:
+    messages: A Python Queue which stores messages read from the UDP connection
+  """
   def __init__(self, name: str, ip: str, port: int):
     self._name = name
     self._ip = ip
@@ -126,7 +130,12 @@ class UdpSocketInterface(UdpInterface):
 
 
 class TelemetryInterface(UdpSocketInterface):
-  """A UDP socket which processes Tello telemetry"""
+  """A UDP socket which processes Tello telemetry
+
+  Attributes:
+    history: A list of TelemetryPackets received over the lifetime of the UDP
+      connection
+  """
   def __init__(self):
     super().__init__("Telemetry", '192.168.10.1', 8890)
     self.history = []

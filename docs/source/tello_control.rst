@@ -1,40 +1,16 @@
 tello\_control package
 ======================
 
-Submodules
-----------
-
-tello\_control.controller module
---------------------------------
-
-.. automodule:: tello_control.controller
+.. automodule:: tello_control
    :members:
    :undoc-members:
    :show-inheritance:
+   :member-order: groupwise
 
-tello\_control.experiment module
---------------------------------
-
-.. automodule:: tello_control.experiment
-   :members:
-   :undoc-members:
-   :show-inheritance:
-
-tello\_control.structs module
------------------------------
-
-.. automodule:: tello_control.structs
-   :members:
-   :undoc-members:
-   :show-inheritance:
-
-tello\_control.tello module
----------------------------
-
-.. automodule:: tello_control.tello
-   :members:
-   :undoc-members:
-   :show-inheritance:
+Private Modules
+===============
+These classes are used under the hood. You might find them helpful to know
+about, but you should never need to import them yourself.
 
 tello\_control.udp\_interface module
 ------------------------------------

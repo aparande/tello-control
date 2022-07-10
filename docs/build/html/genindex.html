@@ -154,10 +154,8 @@
 <div id="searchbox"></div><div class="sidebar-scroll"><div class="sidebar-tree">
   <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
 <ul>
-<li class="toctree-l1 has-children"><a class="reference internal" href="modules.html">tello_control</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" role="switch" type="checkbox"/><label for="toctree-checkbox-1"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
-<li class="toctree-l2"><a class="reference internal" href="tello_control.html">tello_control package</a></li>
-</ul>
-</li>
+<li class="toctree-l1"><a class="reference internal" href="tello_control.html">tello_control package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tello_control.html#private-modules">Private Modules</a></li>
 </ul>
 
 </div>
@@ -200,13 +198,13 @@
   <h2>A</h2>
   <table style="width: 100%" class="indextable genindextable"><tr>
     <td style="width: 33%; vertical-align: top;"><ul>
-        <li><a href="tello_control.html#tello_control.structs.TelemetryPacket.accel_x">accel_x (tello_control.structs.TelemetryPacket attribute)</a>
+        <li><a href="tello_control.html#tello_control.TelemetryPacket.accel_x">accel_x (tello_control.TelemetryPacket attribute)</a>
 </li>
     </ul></td>
     <td style="width: 33%; vertical-align: top;"><ul>
-        <li><a href="tello_control.html#tello_control.structs.TelemetryPacket.accel_y">accel_y (tello_control.structs.TelemetryPacket attribute)</a>
+        <li><a href="tello_control.html#tello_control.TelemetryPacket.accel_y">accel_y (tello_control.TelemetryPacket attribute)</a>
 </li>
-        <li><a href="tello_control.html#tello_control.structs.TelemetryPacket.accel_z">accel_z (tello_control.structs.TelemetryPacket attribute)</a>
+        <li><a href="tello_control.html#tello_control.TelemetryPacket.accel_z">accel_z (tello_control.TelemetryPacket attribute)</a>
 </li>
     </ul></td>
   </tr></table>
@@ -216,14 +214,14 @@
   <h2>B</h2>
   <table style="width: 100%" class="indextable genindextable"><tr>
     <td style="width: 33%; vertical-align: top;"><ul>
-        <li><a href="tello_control.html#tello_control.structs.TelemetryPacket.barometer">barometer (tello_control.structs.TelemetryPacket attribute)</a>
+        <li><a href="tello_control.html#tello_control.TelemetryPacket.barometer">barometer (tello_control.TelemetryPacket attribute)</a>
 </li>
     </ul></td>
     <td style="width: 33%; vertical-align: top;"><ul>
-        <li><a href="tello_control.html#tello_control.structs.TelemetryPacket.battery">battery (tello_control.structs.TelemetryPacket attribute)</a>
+        <li><a href="tello_control.html#tello_control.TelemetryPacket.battery">battery (tello_control.TelemetryPacket attribute)</a>
 
         <ul>
-          <li><a href="tello_control.html#tello_control.tello.Tello.battery">(tello_control.tello.Tello property)</a>
+          <li><a href="tello_control.html#tello_control.Tello.battery">(tello_control.Tello property)</a>
 </li>
         </ul></li>
     </ul></td>
@@ -234,19 +232,19 @@
   <h2>C</h2>
   <table style="width: 100%" class="indextable genindextable"><tr>
     <td style="width: 33%; vertical-align: top;"><ul>
-        <li><a href="tello_control.html#tello_control.structs.TelloCommand.CHECK_BATTERY">CHECK_BATTERY (tello_control.structs.TelloCommand attribute)</a>
+        <li><a href="tello_control.html#tello_control.TelloCommand.CHECK_BATTERY">CHECK_BATTERY (tello_control.TelloCommand attribute)</a>
 </li>
         <li><a href="tello_control.html#tello_control.utils.clip_rc">clip_rc() (in module tello_control.utils)</a>
 </li>
-        <li><a href="tello_control.html#tello_control.structs.CommandPacket.command">command (tello_control.structs.CommandPacket attribute)</a>
+        <li><a href="tello_control.html#tello_control.Tello.cmd">cmd (tello_control.Tello attribute)</a>
 </li>
     </ul></td>
     <td style="width: 33%; vertical-align: top;"><ul>
+        <li><a href="tello_control.html#tello_control.Tello.command_history">command_history (tello_control.Tello attribute)</a>
+</li>
         <li><a href="tello_control.html#tello_control.udp_interface.CommandInterface">CommandInterface (class in tello_control.udp_interface)</a>
 </li>
-        <li><a href="tello_control.html#tello_control.structs.CommandPacket">CommandPacket (class in tello_control.structs)</a>
-</li>
-        <li><a href="tello_control.html#tello_control.tello.Tello.connect">connect() (tello_control.tello.Tello method)</a>
+        <li><a href="tello_control.html#tello_control.Tello.connect">connect() (tello_control.Tello method)</a>
 
         <ul>
           <li><a href="tello_control.html#tello_control.udp_interface.UdpInterface.connect">(tello_control.udp_interface.UdpInterface method)</a>
@@ -260,7 +258,7 @@
   <h2>D</h2>
   <table style="width: 100%" class="indextable genindextable"><tr>
     <td style="width: 33%; vertical-align: top;"><ul>
-        <li><a href="tello_control.html#tello_control.tello.Tello.disconnect">disconnect() (tello_control.tello.Tello method)</a>
+        <li><a href="tello_control.html#tello_control.Tello.disconnect">disconnect() (tello_control.Tello method)</a>
 
         <ul>
           <li><a href="tello_control.html#tello_control.udp_interface.UdpInterface.disconnect">(tello_control.udp_interface.UdpInterface method)</a>
@@ -274,11 +272,11 @@
   <h2>E</h2>
   <table style="width: 100%" class="indextable genindextable"><tr>
     <td style="width: 33%; vertical-align: top;"><ul>
-        <li><a href="tello_control.html#tello_control.tello.Tello.end_video_stream">end_video_stream() (tello_control.tello.Tello method)</a>
+        <li><a href="tello_control.html#tello_control.Tello.end_video_stream">end_video_stream() (tello_control.Tello method)</a>
 </li>
     </ul></td>
     <td style="width: 33%; vertical-align: top;"><ul>
-        <li><a href="tello_control.html#tello_control.experiment.Experiment">Experiment (class in tello_control.experiment)</a>
+        <li><a href="tello_control.html#tello_control.Experiment">Experiment (class in tello_control)</a>
 </li>
     </ul></td>
   </tr></table>
@@ -288,11 +286,11 @@
   <h2>F</h2>
   <table style="width: 100%" class="indextable genindextable"><tr>
     <td style="width: 33%; vertical-align: top;"><ul>
-        <li><a href="tello_control.html#tello_control.structs.TelemetryPacket.flight_dist">flight_dist (tello_control.structs.TelemetryPacket attribute)</a>
+        <li><a href="tello_control.html#tello_control.TelemetryPacket.flight_dist">flight_dist (tello_control.TelemetryPacket attribute)</a>
 </li>
     </ul></td>
     <td style="width: 33%; vertical-align: top;"><ul>
-        <li><a href="tello_control.html#tello_control.structs.TelemetryPacket.from_data_str">from_data_str() (tello_control.structs.TelemetryPacket class method)</a>
+        <li><a href="tello_control.html#tello_control.TelemetryPacket.from_data_str">from_data_str() (tello_control.TelemetryPacket class method)</a>
 </li>
     </ul></td>
   </tr></table>
@@ -302,11 +300,13 @@
   <h2>H</h2>
   <table style="width: 100%" class="indextable genindextable"><tr>
     <td style="width: 33%; vertical-align: top;"><ul>
-        <li><a href="tello_control.html#tello_control.structs.TelemetryPacket.height">height (tello_control.structs.TelemetryPacket attribute)</a>
+        <li><a href="tello_control.html#tello_control.TelemetryPacket.height">height (tello_control.TelemetryPacket attribute)</a>
 </li>
     </ul></td>
     <td style="width: 33%; vertical-align: top;"><ul>
-        <li><a href="tello_control.html#tello_control.structs.TelloCommand.HOVER">HOVER (tello_control.structs.TelloCommand attribute)</a>
+        <li><a href="tello_control.html#tello_control.udp_interface.TelemetryInterface.history">history (tello_control.udp_interface.TelemetryInterface attribute)</a>
+</li>
+        <li><a href="tello_control.html#tello_control.TelloCommand.HOVER">HOVER (tello_control.TelloCommand attribute)</a>
 </li>
     </ul></td>
   </tr></table>
@@ -316,13 +316,13 @@
   <h2>L</h2>
   <table style="width: 100%" class="indextable genindextable"><tr>
     <td style="width: 33%; vertical-align: top;"><ul>
-        <li><a href="tello_control.html#tello_control.structs.TelloCommand.LAND">LAND (tello_control.structs.TelloCommand attribute)</a>
+        <li><a href="tello_control.html#tello_control.TelloCommand.LAND">LAND (tello_control.TelloCommand attribute)</a>
 </li>
     </ul></td>
     <td style="width: 33%; vertical-align: top;"><ul>
-        <li><a href="tello_control.html#tello_control.experiment.Experiment.log_command_history">log_command_history() (tello_control.experiment.Experiment method)</a>
+        <li><a href="tello_control.html#tello_control.Experiment.log_command_history">log_command_history() (tello_control.Experiment method)</a>
 </li>
-        <li><a href="tello_control.html#tello_control.experiment.Experiment.log_results">log_results() (tello_control.experiment.Experiment method)</a>
+        <li><a href="tello_control.html#tello_control.Experiment.log_results">log_results() (tello_control.Experiment method)</a>
 </li>
     </ul></td>
   </tr></table>
@@ -332,19 +332,15 @@
   <h2>M</h2>
   <table style="width: 100%" class="indextable genindextable"><tr>
     <td style="width: 33%; vertical-align: top;"><ul>
-        <li><a href="tello_control.html#tello_control.experiment.Experiment.main">main() (tello_control.experiment.Experiment method)</a>
+        <li><a href="tello_control.html#tello_control.Experiment.main">main() (tello_control.Experiment method)</a>
+</li>
+        <li><a href="tello_control.html#tello_control.udp_interface.UdpInterface.messages">messages (tello_control.udp_interface.UdpInterface attribute)</a>
 </li>
         <li>
     module
 
         <ul>
-          <li><a href="tello_control.html#module-tello_control.controller">tello_control.controller</a>
-</li>
-          <li><a href="tello_control.html#module-tello_control.experiment">tello_control.experiment</a>
-</li>
-          <li><a href="tello_control.html#module-tello_control.structs">tello_control.structs</a>
-</li>
-          <li><a href="tello_control.html#module-tello_control.tello">tello_control.tello</a>
+          <li><a href="tello_control.html#module-tello_control">tello_control</a>
 </li>
           <li><a href="tello_control.html#module-tello_control.udp_interface">tello_control.udp_interface</a>
 </li>
@@ -359,11 +355,7 @@
   <h2>P</h2>
   <table style="width: 100%" class="indextable genindextable"><tr>
     <td style="width: 33%; vertical-align: top;"><ul>
-        <li><a href="tello_control.html#tello_control.structs.CommandPacket.payload">payload (tello_control.structs.CommandPacket attribute)</a>
-</li>
-    </ul></td>
-    <td style="width: 33%; vertical-align: top;"><ul>
-        <li><a href="tello_control.html#tello_control.structs.TelemetryPacket.pitch">pitch (tello_control.structs.TelemetryPacket attribute)</a>
+        <li><a href="tello_control.html#tello_control.TelemetryPacket.pitch">pitch (tello_control.TelemetryPacket attribute)</a>
 </li>
     </ul></td>
   </tr></table>
@@ -373,13 +365,13 @@
   <h2>R</h2>
   <table style="width: 100%" class="indextable genindextable"><tr>
     <td style="width: 33%; vertical-align: top;"><ul>
-        <li><a href="tello_control.html#tello_control.structs.TelloCommand.RC">RC (tello_control.structs.TelloCommand attribute)</a>
+        <li><a href="tello_control.html#tello_control.TelloCommand.RC">RC (tello_control.TelloCommand attribute)</a>
 </li>
     </ul></td>
     <td style="width: 33%; vertical-align: top;"><ul>
-        <li><a href="tello_control.html#tello_control.structs.TelemetryPacket.roll">roll (tello_control.structs.TelemetryPacket attribute)</a>
+        <li><a href="tello_control.html#tello_control.TelemetryPacket.roll">roll (tello_control.TelemetryPacket attribute)</a>
 </li>
-        <li><a href="tello_control.html#tello_control.experiment.Experiment.run">run() (tello_control.experiment.Experiment method)</a>
+        <li><a href="tello_control.html#tello_control.Experiment.run">run() (tello_control.Experiment method)</a>
 </li>
     </ul></td>
   </tr></table>
@@ -389,27 +381,27 @@
   <h2>S</h2>
   <table style="width: 100%" class="indextable genindextable"><tr>
     <td style="width: 33%; vertical-align: top;"><ul>
-        <li><a href="tello_control.html#tello_control.structs.TelloCommand.SDK_ON">SDK_ON (tello_control.structs.TelloCommand attribute)</a>
+        <li><a href="tello_control.html#tello_control.TelloCommand.SDK_ON">SDK_ON (tello_control.TelloCommand attribute)</a>
 </li>
         <li><a href="tello_control.html#tello_control.udp_interface.CommandInterface.send">send() (tello_control.udp_interface.CommandInterface method)</a>
 </li>
-        <li><a href="tello_control.html#tello_control.tello.Tello.send_command">send_command() (tello_control.tello.Tello method)</a>
+        <li><a href="tello_control.html#tello_control.Tello.send_command">send_command() (tello_control.Tello method)</a>
 </li>
-        <li><a href="tello_control.html#tello_control.experiment.Experiment.setUp">setUp() (tello_control.experiment.Experiment method)</a>
+        <li><a href="tello_control.html#tello_control.Experiment.setUp">setUp() (tello_control.Experiment method)</a>
 </li>
-        <li><a href="tello_control.html#tello_control.controller.TelloController.start">start() (tello_control.controller.TelloController method)</a>
+        <li><a href="tello_control.html#tello_control.TelloController.start">start() (tello_control.TelloController method)</a>
 </li>
     </ul></td>
     <td style="width: 33%; vertical-align: top;"><ul>
-        <li><a href="tello_control.html#tello_control.structs.TelloCommand.START_VIDEO">START_VIDEO (tello_control.structs.TelloCommand attribute)</a>
+        <li><a href="tello_control.html#tello_control.TelloCommand.START_VIDEO">START_VIDEO (tello_control.TelloCommand attribute)</a>
 </li>
-        <li><a href="tello_control.html#tello_control.controller.TelloController.step">step() (tello_control.controller.TelloController method)</a>
+        <li><a href="tello_control.html#tello_control.TelloController.step">step() (tello_control.TelloController method)</a>
 </li>
-        <li><a href="tello_control.html#tello_control.controller.TelloController.stop">stop() (tello_control.controller.TelloController method)</a>
+        <li><a href="tello_control.html#tello_control.TelloController.stop">stop() (tello_control.TelloController method)</a>
 </li>
-        <li><a href="tello_control.html#tello_control.structs.TelloCommand.STOP_VIDEO">STOP_VIDEO (tello_control.structs.TelloCommand attribute)</a>
+        <li><a href="tello_control.html#tello_control.TelloCommand.STOP_VIDEO">STOP_VIDEO (tello_control.TelloCommand attribute)</a>
 </li>
-        <li><a href="tello_control.html#tello_control.tello.Tello.stream_video">stream_video() (tello_control.tello.Tello method)</a>
+        <li><a href="tello_control.html#tello_control.Tello.stream_video">stream_video() (tello_control.Tello method)</a>
 </li>
     </ul></td>
   </tr></table>
@@ -419,46 +411,29 @@
   <h2>T</h2>
   <table style="width: 100%" class="indextable genindextable"><tr>
     <td style="width: 33%; vertical-align: top;"><ul>
-        <li><a href="tello_control.html#tello_control.structs.TelloCommand.TAKE_OFF">TAKE_OFF (tello_control.structs.TelloCommand attribute)</a>
+        <li><a href="tello_control.html#tello_control.TelloCommand.TAKE_OFF">TAKE_OFF (tello_control.TelloCommand attribute)</a>
 </li>
-        <li><a href="tello_control.html#tello_control.experiment.Experiment.tearDown">tearDown() (tello_control.experiment.Experiment method)</a>
+        <li><a href="tello_control.html#tello_control.Experiment.tearDown">tearDown() (tello_control.Experiment method)</a>
+</li>
+        <li><a href="tello_control.html#tello_control.Tello.telem">telem (tello_control.Tello attribute)</a>
 </li>
         <li><a href="tello_control.html#tello_control.udp_interface.TelemetryInterface">TelemetryInterface (class in tello_control.udp_interface)</a>
 </li>
-        <li><a href="tello_control.html#tello_control.structs.TelemetryPacket">TelemetryPacket (class in tello_control.structs)</a>
+        <li><a href="tello_control.html#tello_control.TelemetryPacket">TelemetryPacket (class in tello_control)</a>
 </li>
-        <li><a href="tello_control.html#tello_control.tello.Tello">Tello (class in tello_control.tello)</a>
+        <li><a href="tello_control.html#tello_control.Tello">Tello (class in tello_control)</a>
+</li>
+        <li><a href="tello_control.html#tello_control.Experiment.tello">tello (tello_control.Experiment attribute)</a>
 </li>
         <li>
-    tello_control.controller
+    tello_control
 
         <ul>
-          <li><a href="tello_control.html#module-tello_control.controller">module</a>
-</li>
-        </ul></li>
-        <li>
-    tello_control.experiment
-
-        <ul>
-          <li><a href="tello_control.html#module-tello_control.experiment">module</a>
-</li>
-        </ul></li>
-        <li>
-    tello_control.structs
-
-        <ul>
-          <li><a href="tello_control.html#module-tello_control.structs">module</a>
+          <li><a href="tello_control.html#module-tello_control">module</a>
 </li>
         </ul></li>
     </ul></td>
     <td style="width: 33%; vertical-align: top;"><ul>
-        <li>
-    tello_control.tello
-
-        <ul>
-          <li><a href="tello_control.html#module-tello_control.tello">module</a>
-</li>
-        </ul></li>
         <li>
     tello_control.udp_interface
 
@@ -473,17 +448,17 @@
           <li><a href="tello_control.html#module-tello_control.utils">module</a>
 </li>
         </ul></li>
-        <li><a href="tello_control.html#tello_control.structs.TelloCommand">TelloCommand (class in tello_control.structs)</a>
+        <li><a href="tello_control.html#tello_control.TelloCommand">TelloCommand (class in tello_control)</a>
 </li>
-        <li><a href="tello_control.html#tello_control.controller.TelloController">TelloController (class in tello_control.controller)</a>
+        <li><a href="tello_control.html#tello_control.TelloController">TelloController (class in tello_control)</a>
 </li>
-        <li><a href="tello_control.html#tello_control.structs.TelemetryPacket.temp_h">temp_h (tello_control.structs.TelemetryPacket attribute)</a>
+        <li><a href="tello_control.html#tello_control.TelemetryPacket.temp_h">temp_h (tello_control.TelemetryPacket attribute)</a>
 </li>
-        <li><a href="tello_control.html#tello_control.structs.TelemetryPacket.temp_l">temp_l (tello_control.structs.TelemetryPacket attribute)</a>
+        <li><a href="tello_control.html#tello_control.TelemetryPacket.temp_l">temp_l (tello_control.TelemetryPacket attribute)</a>
 </li>
-        <li><a href="tello_control.html#tello_control.structs.TelemetryPacket.time">time (tello_control.structs.TelemetryPacket attribute)</a>
+        <li><a href="tello_control.html#tello_control.TelemetryPacket.time">time (tello_control.TelemetryPacket attribute)</a>
 </li>
-        <li><a href="tello_control.html#tello_control.structs.TelemetryPacket.timestamp">timestamp (tello_control.structs.TelemetryPacket attribute)</a>
+        <li><a href="tello_control.html#tello_control.TelemetryPacket.timestamp">timestamp (tello_control.TelemetryPacket attribute)</a>
 </li>
     </ul></td>
   </tr></table>
@@ -507,13 +482,15 @@
   <h2>V</h2>
   <table style="width: 100%" class="indextable genindextable"><tr>
     <td style="width: 33%; vertical-align: top;"><ul>
-        <li><a href="tello_control.html#tello_control.structs.TelemetryPacket.vel_x">vel_x (tello_control.structs.TelemetryPacket attribute)</a>
+        <li><a href="tello_control.html#tello_control.TelemetryPacket.vel_x">vel_x (tello_control.TelemetryPacket attribute)</a>
 </li>
-        <li><a href="tello_control.html#tello_control.structs.TelemetryPacket.vel_y">vel_y (tello_control.structs.TelemetryPacket attribute)</a>
+        <li><a href="tello_control.html#tello_control.TelemetryPacket.vel_y">vel_y (tello_control.TelemetryPacket attribute)</a>
 </li>
     </ul></td>
     <td style="width: 33%; vertical-align: top;"><ul>
-        <li><a href="tello_control.html#tello_control.structs.TelemetryPacket.vel_z">vel_z (tello_control.structs.TelemetryPacket attribute)</a>
+        <li><a href="tello_control.html#tello_control.TelemetryPacket.vel_z">vel_z (tello_control.TelemetryPacket attribute)</a>
+</li>
+        <li><a href="tello_control.html#tello_control.Tello.video">video (tello_control.Tello attribute)</a>
 </li>
         <li><a href="tello_control.html#tello_control.udp_interface.VideoInterface">VideoInterface (class in tello_control.udp_interface)</a>
 </li>
@@ -525,7 +502,7 @@
   <h2>Y</h2>
   <table style="width: 100%" class="indextable genindextable"><tr>
     <td style="width: 33%; vertical-align: top;"><ul>
-        <li><a href="tello_control.html#tello_control.structs.TelemetryPacket.yaw">yaw (tello_control.structs.TelemetryPacket attribute)</a>
+        <li><a href="tello_control.html#tello_control.TelemetryPacket.yaw">yaw (tello_control.TelemetryPacket attribute)</a>
 </li>
     </ul></td>
   </tr></table>

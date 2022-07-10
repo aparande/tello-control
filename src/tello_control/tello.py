@@ -18,7 +18,14 @@ LOGGER = logging.getLogger("tello")
 
 
 class Tello:
-  """The primary interface between the user and the Tello"""
+  """The primary interface between the user and the Tello
+
+  Attributes:
+    telem: A UdpInterface for reading Drone Telemetry.
+    cmd: A UdpInterface for sending commands and receiving their responses.
+    video: A UdpInterface for receiving video frames.
+    command_history: A list of command packets sent to the drone.
+  """
   def __init__(self, ack_timeout: int = 15):
     self.telem = TelemetryInterface()
     self.cmd = CommandInterface()
