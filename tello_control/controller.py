@@ -13,10 +13,11 @@ LOGGER = logging.getLogger("controller")
 
 class TelloController:
 
-  def __init__(self, tello):
+  def __init__(self, tello, control_frequency: float = 10):
     self._tello = tello
     self._telem_lock = threading.Lock()
     self._pending_telem = []
+    self._control_frequency = control_frequency
 
   def start(self):
     self._control_thread = threading.Thread(target=self._run)
@@ -57,7 +58,7 @@ class TelloController:
       self._pending_telem = []
       self._telem_lock.release()
 
-      time.sleep(0.1)
+      time.sleep(1 / self._control_frequency)
 
   def _process_telem(self):
     while not self._stop_event.is_set():
