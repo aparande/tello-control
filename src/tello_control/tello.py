@@ -59,6 +59,7 @@ class Tello:
         if timestamp > start:
           return "error" not in msg.lower(), msg
         else:
+          # This is an old message, so ignore it
           continue
       except queue.Empty:
         LOGGER.error(f"Drone did not acknowledge command: {command}")
