@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import abc
+from collections.abc import Iterable
 import logging
 import threading
 import time
@@ -113,3 +114,25 @@ class TelloController(abc.ABC):
       to the Tello
     """
     pass
+
+  @abc.abstractmethod
+  def compute_reference(
+      self, now_time: float, telemetry: list[TelemetryPacket]
+  ) -> Iterable[float]:
+    """
+    Compute the reference that the controller is tracking
+
+    A Controller can optionally override this method as an easy way to create
+    the reference signal that the drone is supposed to be tracking.
+
+    Args:
+      now_time: The current time
+      telemetry: A list of Telemetry packets which arrived since the last
+        execution.
+
+    Returns:
+      An iterable of floats depending on what the reference represents. The
+      implementation of the step function is responsible for knowing how to use
+      the result of this function.
+    """
+    raise NotImplementedError()  # noqa
