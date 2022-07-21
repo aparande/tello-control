@@ -32,11 +32,11 @@ class TelloController(abc.ABC):
     self._telem_thread = threading.Thread(target=self._process_telem)
     self._stop_event = threading.Event()
 
-    self._control_thread.start()
-    self._telem_thread.start()
+    self.start_time = time.time()
+    LOGGER.info(f"Starting control at {self.start_time}")
 
-    self._start_time = time.time()
-    LOGGER.info(f"Starting control at {self._start_time}")
+    self._telem_thread.start()
+    self._control_thread.start()
 
   def stop(self):
     """
@@ -47,11 +47,11 @@ class TelloController(abc.ABC):
     """
     self._stop_event.set()
 
-    self._telem_thread.join()
     self._control_thread.join()
+    self._telem_thread.join()
 
-    self._end_time = time.time()
-    LOGGER.info(f"Ending control at {self._start_time}")
+    self.end_time = time.time()
+    LOGGER.info(f"Ending control at {self.end_time}")
 
   def _run(self):
     """
