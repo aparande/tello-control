@@ -1,3 +1,5 @@
+from typing import Union
+
 import abc
 import dataclasses
 
@@ -24,9 +26,11 @@ class Experiment(abc.ABC):
   Attributes:
     tello: The Tello which the experiment is being run with.
   """
-  def __init__(self, output_path: str):
+  def __init__(self, output_path: Union[str, pathlib.Path]):
     self.tello = Tello()
-    self._output_path = pathlib.Path(output_path)
+    self._output_path = pathlib.Path(output_path) if isinstance(
+        output_path, str
+    ) else output_path
 
   def setUp(self) -> bool:
     """
