@@ -1,6 +1,5 @@
 from __future__ import annotations
 
-from typing import Optional
 import enum
 import time
 
@@ -109,9 +108,16 @@ class CommandPacket:
     payload: A list of arguments to be sent along with the command name
   """
   command: TelloCommand
-  payload: Optional[list[str]] = None
+  payload: list[str]
 
   def __str__(self) -> str:
-    if self.payload is None or len(self.payload) == 0:
+    if len(self.payload) == 0:
       return self.command.value
     return f'{self.command.value} ' + ' '.join(self.payload)
+
+
+class TelloEvent(enum.Enum):
+  """Types of Tello Events"""
+  START_CONTROL = 'START_CONTROL'
+  STOP_CONTROL = 'STOP_CONTROL'
+  DROPPED_PACKET = 'DROPPED_PACKET'

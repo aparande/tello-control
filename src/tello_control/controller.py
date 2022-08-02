@@ -6,7 +6,7 @@ import logging
 import threading
 import time
 
-from tello_control.structs import TelemetryPacket, TelloCommand
+from tello_control.structs import TelemetryPacket, TelloCommand, TelloEvent
 from tello_control import utils, Tello
 
 LOGGER = logging.getLogger("controller")
@@ -20,9 +20,9 @@ class TelloController(abc.ABC):
   telemetry for use in the control step.
   """
   def __init__(self, tello: Tello, control_frequency: float = 10):
-    self._tello = tello
+    self.tello = tello
     self._telem_lock = threading.Lock()
-    self._pending_telem = []
+    self._pending_telem: list[TelemetryPacket] = []
     self._control_frequency = control_frequency
 
   def start(self):
@@ -34,7 +34,7 @@ class TelloController(abc.ABC):
     self._stop_event = threading.Event()
 
     self.start_time = time.time()
-    LOGGER.info(f"Starting control at {self.start_time}")
+    self.tello.log_event(TelloEvent.START_CONTROL)
 
     self._telem_thread.start()
     self._control_thread.start()
@@ -52,7 +52,7 @@ class TelloController(abc.ABC):
     self._telem_thread.join()
 
     self.end_time = time.time()
-    LOGGER.info(f"Ending control at {self.end_time}")
+    self.tello.log_event(TelloEvent.STOP_CONTROL)
 
   def _run(self):
     """
@@ -71,7 +71,7 @@ class TelloController(abc.ABC):
           uz = utils.clip_rc(uz)
           ua = utils.clip_rc(ua)
 
-          self._tello.send_command(TelloCommand.RC, ux, uy, uz, ua)
+          self.tello.send_command(TelloCommand.RC, ux, uy, uz, ua)
         except Exception as e:
           LOGGER.error(f"Landing tello due to error: {e}")
           self.stop()
@@ -89,7 +89,7 @@ class TelloController(abc.ABC):
     """
     while not self._stop_event.is_set():
       # Blocks until something is available
-      telem = self._tello.telem.messages.get()
+      telem = self.tello.telem.messages.get()
 
       # Acquire the lock to add to the pending telemetry
       with self._telem_lock:

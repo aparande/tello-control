@@ -75,6 +75,17 @@ class Experiment(abc.ABC):
       for timestamp, cmd in self.tello.command_history:
         writer.writerow([timestamp, cmd.command, *cmd.payload])
 
+  def log_events(self):
+    """Write the event history to the experiment output path"""
+    if not os.path.exists(self._output_path):
+      os.mkdir(self._output_path)
+
+    with open(self._output_path / "event-history.csv", "w") as csv_file:
+      writer = csv.writer(csv_file)
+      writer.writerow(["Timestamp", "Event"])
+      for timestamp, event in self.tello.event_history:
+        writer.writerow([timestamp, event.value])
+
   def run(self):
     """Run the experiment
 
@@ -91,6 +102,7 @@ class Experiment(abc.ABC):
 
     self.log_results()
     self.log_command_history()
+    self.log_events()
 
   @abc.abstractmethod
   def main(self):

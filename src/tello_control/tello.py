@@ -5,7 +5,7 @@ import logging
 import queue
 import time
 
-from tello_control.structs import CommandPacket, TelloCommand
+from tello_control.structs import CommandPacket, TelloCommand, TelloEvent
 from tello_control.udp_interface import (
     TelemetryInterface, CommandInterface, VideoInterface
 )
@@ -21,12 +21,14 @@ class Tello:
     cmd: A UdpInterface for sending commands and receiving their responses.
     video: A UdpInterface for receiving video frames.
     command_history: A list of command packets sent to the drone.
+    event_history: A list of events and timestamps
   """
   def __init__(self, ack_timeout: int = 15):
     self.telem = TelemetryInterface()
     self.cmd = CommandInterface()
     self.video = VideoInterface()
-    self.command_history = []
+    self.command_history: list[tuple[float, CommandPacket]] = []
+    self.event_history: list[tuple[float, TelloEvent]] = []
 
     self._ack_timeout = ack_timeout
 
@@ -102,3 +104,22 @@ class Tello:
     """Disconnect from the tello"""
     self.telem.disconnect()
     self.cmd.disconnect()
+
+  def log_event(self, event: TelloEvent, level: int = logging.INFO):
+    """Logs an event to the Tello
+
+    Args:
+      event: The event to log
+      level: The logging level. This comes straight from the `logging` library.
+    """
+    message = ""
+    event_time = time.time()
+    if event == TelloEvent.START_CONTROL:
+      message = f"Started Control at {event_time}"
+    elif event == TelloEvent.STOP_CONTROL:
+      message = f"Stopped Control at {event_time}"
+    else:
+      message = f"Received event {event.value}"
+
+    LOGGER.log(level, message)
+    self.event_history.append((event_time, event))
