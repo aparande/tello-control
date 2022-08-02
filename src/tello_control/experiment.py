@@ -9,7 +9,7 @@ import logging
 import pathlib
 
 from tello_control.tello import Tello
-from tello_control.structs import TelemetryPacket
+from tello_control.structs import TelemetryPacket, TelloCommand
 
 TELEM_FIELDS = [field.name for field in dataclasses.fields(TelemetryPacket)]
 
@@ -48,8 +48,13 @@ class Experiment(abc.ABC):
     """
     Destroy any objects created during the experiment.
 
-    At a minimum, this method simply disconnects from the Tello.
+    At a minimum, this method lands the Tello and disconnects from it.
     """
+    LOGGER.info("Initiating Landing")
+    self.tello.send_command(TelloCommand.LAND, wait_for_success=True)
+
+    LOGGER.info(f"Experiment complete. Tello battery is {self.tello.battery}%")
+
     self.tello.disconnect()
 
   def log_results(self):
@@ -96,13 +101,16 @@ class Experiment(abc.ABC):
       LOGGER.error("Did not run experiment because could not connect to drone")
       return
 
-    self.main()
+    try:
+      self.main()
+    except KeyboardInterrupt:
+      pass
+    finally:
+      self.tearDown()
 
-    self.tearDown()
-
-    self.log_results()
-    self.log_command_history()
-    self.log_events()
+      self.log_results()
+      self.log_command_history()
+      self.log_events()
 
   @abc.abstractmethod
   def main(self):
