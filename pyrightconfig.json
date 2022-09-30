@@ -1,6 +1,6 @@
 {
   "include": [
-    "*"
+    "src"
   ],
   
   "exclude": [
@@ -9,6 +9,9 @@
 
   "reportMissingImports": true,
   "reportMissingTypeStubs": false,
+
+	"venvPath": ".",
+	"venv": "venv",
 
   "pythonVersion": "3.9",
   "pythonPlatform": "All"
