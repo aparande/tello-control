@@ -5,6 +5,7 @@ Tello Control
    :caption: Contents:
 
    tello_control
+   examples
 
 The `DJI Ryze Tello drone <https://m.dji.com/product/tello>`_ is a relatively low
 cost, indoor, commercial drone. It exposes an

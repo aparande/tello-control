@@ -190,7 +190,7 @@ class PidYawControlExperiment(Experiment):
         self._hover(1)
 
 
-if __name__ == "__main__":
+if __name__ == '__main__':
   parser = argparse.ArgumentParser(
       description="Run an experiment for the PID medium article"
   )

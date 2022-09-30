@@ -3,7 +3,7 @@
   <head><meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width,initial-scale=1"/>
     <meta name="color-scheme" content="light dark"><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
-<link rel="index" title="Index" href="genindex.html" /><link rel="search" title="Search" href="search.html" /><link rel="prev" title="Tello Control" href="index.html" />
+<link rel="index" title="Index" href="genindex.html" /><link rel="search" title="Search" href="search.html" /><link rel="next" title="Examples" href="examples.html" /><link rel="prev" title="Tello Control" href="index.html" />
 
     <meta name="generator" content="sphinx-5.0.2, furo 2022.06.21"/>
         <title>tello_control package - tello_control 1.0.0 documentation</title>
@@ -134,7 +134,7 @@
           <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
         </button>
       </div>
-      <label class="toc-overlay-icon toc-header-icon no-toc" for="__toc">
+      <label class="toc-overlay-icon toc-header-icon" for="__toc">
         <div class="visually-hidden">Toggle table of contents sidebar</div>
         <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
       </label>
@@ -157,7 +157,7 @@
   <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
 <ul class="current">
 <li class="toctree-l1 current current-page"><a class="current reference internal" href="#">tello_control package</a></li>
-<li class="toctree-l1"><a class="reference internal" href="#private-modules">Private Modules</a></li>
+<li class="toctree-l1"><a class="reference internal" href="examples.html">Examples</a></li>
 </ul>
 
 </div>
@@ -185,7 +185,7 @@
               <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
             </button>
           </div>
-          <label class="toc-overlay-icon toc-content-icon no-toc" for="__toc">
+          <label class="toc-overlay-icon toc-content-icon" for="__toc">
             <div class="visually-hidden">Toggle table of contents sidebar</div>
             <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
           </label>
@@ -619,13 +619,12 @@ started when the controller began execution.</p>
 
 </dd></dl>
 
-</section>
 <section id="private-modules">
-<h1>Private Modules<a class="headerlink" href="#private-modules" title="Permalink to this heading">#</a></h1>
+<h2>Private Modules<a class="headerlink" href="#private-modules" title="Permalink to this heading">#</a></h2>
 <p>These classes are used under the hood. You might find them helpful to know
 about, but you should never need to import them yourself.</p>
 <section id="module-tello_control.udp_interface">
-<span id="tello-control-udp-interface-module"></span><h2>tello_control.udp_interface module<a class="headerlink" href="#module-tello_control.udp_interface" title="Permalink to this heading">#</a></h2>
+<span id="tello-control-udp-interface-module"></span><h3>tello_control.udp_interface module<a class="headerlink" href="#module-tello_control.udp_interface" title="Permalink to this heading">#</a></h3>
 <dl class="py class">
 <dt class="sig sig-object py" id="tello_control.udp_interface.CommandInterface">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">tello_control.udp_interface.</span></span><span class="sig-name descname"><span class="pre">CommandInterface</span></span><a class="headerlink" href="#tello_control.udp_interface.CommandInterface" title="Permalink to this definition">#</a></dt>
@@ -697,7 +696,7 @@ class</p>
 
 </section>
 <section id="module-tello_control.utils">
-<span id="tello-control-utils-module"></span><h2>tello_control.utils module<a class="headerlink" href="#module-tello_control.utils" title="Permalink to this heading">#</a></h2>
+<span id="tello-control-utils-module"></span><h3>tello_control.utils module<a class="headerlink" href="#module-tello_control.utils" title="Permalink to this heading">#</a></h3>
 <dl class="py function">
 <dt class="sig sig-object py" id="tello_control.utils.clip_rc">
 <span class="sig-prename descclassname"><span class="pre">tello_control.utils.</span></span><span class="sig-name descname"><span class="pre">clip_rc</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">float</span></span></span><a class="headerlink" href="#tello_control.utils.clip_rc" title="Permalink to this definition">#</a></dt>
@@ -715,13 +714,22 @@ class</p>
 
 </section>
 </section>
+</section>
 
         </article>
       </div>
       <footer>
         
         <div class="related-pages">
-          
+          <a class="next-page" href="examples.html">
+              <div class="page-info">
+                <div class="context">
+                  <span>Next</span>
+                </div>
+                <div class="title">Examples</div>
+              </div>
+              <svg><use href="#svg-arrow-right"></use></svg>
+            </a>
           <a class="prev-page" href="index.html">
               <svg><use href="#svg-arrow-right"></use></svg>
               <div class="page-info">
@@ -753,8 +761,31 @@ class</p>
         
       </footer>
     </div>
-    <aside class="toc-drawer no-toc">
+    <aside class="toc-drawer">
       
+      
+      <div class="toc-sticky toc-scroll">
+        <div class="toc-title-container">
+          <span class="toc-title">
+            Contents
+          </span>
+        </div>
+        <div class="toc-tree-container">
+          <div class="toc-tree">
+            <ul>
+<li><a class="reference internal" href="#">tello_control package</a><ul>
+<li><a class="reference internal" href="#private-modules">Private Modules</a><ul>
+<li><a class="reference internal" href="#module-tello_control.udp_interface">tello_control.udp_interface module</a></li>
+<li><a class="reference internal" href="#module-tello_control.utils">tello_control.utils module</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+          </div>
+        </div>
+      </div>
       
       
     </aside>
